@@ -23,6 +23,7 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import HistoryCard from "./components/HistoryCard";
 import FilterText from "./components/FilterText";
+import { PERCENT, COLORS } from "../../../Constants/Constants";
 
 export default function RefuelerHistory() {
   return (
@@ -30,8 +31,8 @@ export default function RefuelerHistory() {
       <Select mx={"$3"} mb={"$2"}>
         <SelectTrigger variant="rounded" size="md">
           <SelectInput placeholder="Select Employee" />
-          <SelectIcon>
-            <Icon mr={"$3"} as={ChevronDownIcon} />
+          <SelectIcon mr={"$3"}>
+            <Icon as={ChevronDownIcon} />
           </SelectIcon>
         </SelectTrigger>
         <SelectPortal>
@@ -41,48 +42,17 @@ export default function RefuelerHistory() {
               <SelectDragIndicator />
             </SelectDragIndicatorWrapper>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <SelectItem label="Employee 1" value="ux" />
+              <SelectItem label="Jamil Khan" value="ux" />
               <Divider />
-              <SelectItem label="Employee 2" value="web" />
+              <SelectItem label="Asad Bhai" value="web" />
               <Divider />
+              <SelectItem label="Jabbar Ustad" value="web" />
+              <SelectItem label="Agha zwan" value="web" />
+              <SelectItem label="Aa bal zwan" value="web" />
               <SelectItem label="Employee 2" value="web" />
               <SelectItem label="Employee 2" value="web" />
               <SelectItem label="Employee 2" value="web" />
               <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 1" value="ux" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 1" value="ux" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 1" value="ux" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 2" value="web" />
-              <SelectItem label="Employee 9" value="web" />
             </ScrollView>
           </SelectContent>
         </SelectPortal>
@@ -120,16 +90,16 @@ export default function RefuelerHistory() {
 
       <VStack flex={8} px={"$3"} py={"$2"}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <HistoryCard />
-          <HistoryCard />
-          <HistoryCard />
-          <HistoryCard />
-          <HistoryCard />
-          <HistoryCard />
-          <HistoryCard />
-          <HistoryCard />
-          <HistoryCard />
-          <HistoryCard />
+          <HistoryCard paymentBy={"cash"} />
+          <HistoryCard paymentBy={"app"} />
+          <HistoryCard paymentBy={"card"} />
+          <HistoryCard paymentBy={"app"} />
+          <HistoryCard paymentBy={"cash"} />
+          <HistoryCard paymentBy={"card"} />
+          <HistoryCard paymentBy={"card"} />
+          <HistoryCard paymentBy={"cash"} />
+          <HistoryCard paymentBy={"app"} />
+          <HistoryCard paymentBy={"cash"} />
         </ScrollView>
       </VStack>
     </VStack>

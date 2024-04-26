@@ -26,9 +26,9 @@ export default function HomeTab() {
         </View>
       </View>
       <Button mt={"$16"} bg={COLORS.button} gap={10} alignItems="center">
-        <ButtonIcon>
-          <Ionicons name="camera" size={20} color="white" />
-        </ButtonIcon>
+        {/* <ButtonIcon> */}
+        <Ionicons name="camera" size={30} color="white" />
+        {/* </ButtonIcon> */}
         <ButtonText>Scan Code</ButtonText>
       </Button>
     </View>
