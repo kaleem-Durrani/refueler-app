@@ -9,13 +9,16 @@ import {
   ButtonText,
   HStack,
   Divider,
+  ScrollView,
 } from "@gluestack-ui/themed";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { PERCENT } from "../../../Constants/Constants";
 import { FontAwesome6 } from "@expo/vector-icons";
 
 export default function Signup({ navigation }: any) {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -25,124 +28,163 @@ export default function Signup({ navigation }: any) {
         <FontAwesome6 name="arrow-left-long" size={40} color="white" />
       </TouchableOpacity>
       <Text style={styles.text}>Sign up</Text>
-      <View style={styles.loginArea}>
-        <Text>Create your Account</Text>
-        <Text>Enter your details below</Text>
 
-        {/* Name input */}
+      <View py={"$4"} style={styles.loginArea}>
+        <Text style={styles.heading}>Create your Account</Text>
 
-        <Text alignSelf="flex-start">User name</Text>
-        <Input
-          variant="rounded"
-          size="lg"
-          isDisabled={false}
-          isInvalid={false}
-          isReadOnly={false}
+        <Text mt={"$3"} style={styles.subHeading}>
+          Enter your details below
+        </Text>
+
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ alignItems: "center" }}
         >
-          <InputSlot ml={"$3"}>
-            <FontAwesome6 name="user" size={20} color="gray" />
-          </InputSlot>
-          <InputField placeholder="Enter your Name" />
-        </Input>
+          {/* Name input */}
 
-        {/* email input */}
-        <Text alignSelf="flex-start">Email</Text>
-        <Input
-          variant="rounded"
-          size="lg"
-          isDisabled={false}
-          isInvalid={false}
-          isReadOnly={false}
-        >
-          <InputSlot ml={"$3"}>
-            <FontAwesome6 name="envelope" size={20} color="gray" />
-          </InputSlot>
-          <InputField placeholder="Enter your Email" />
-        </Input>
-
-        {/* password input */}
-
-        <Text alignSelf="flex-start">Password</Text>
-        <Input
-          variant="rounded"
-          size="lg"
-          isDisabled={false}
-          isInvalid={false}
-          isReadOnly={false}
-        >
-          <InputSlot ml={"$3"}>
-            <FontAwesome6 name="lock" size={20} color="gray" />
-          </InputSlot>
-          <InputField placeholder="Enter your password" />
-          <InputSlot>
-            <FontAwesome6 name="eye" size={20} color="gray" />
-            <FontAwesome6 name="eye-slash" size={20} color="gray" />
-          </InputSlot>
-        </Input>
-
-        {/* Confirm Pasword */}
-
-        <Text alignSelf="flex-start">Confirm password</Text>
-        <Input
-          variant="rounded"
-          size="lg"
-          isDisabled={false}
-          isInvalid={false}
-          isReadOnly={false}
-        >
-          <InputSlot ml={"$3"}>
-            <FontAwesome6 name="lock" size={20} color="gray" />
-          </InputSlot>
-          <InputField placeholder="Enter your password" />
-          <InputSlot>
-            <FontAwesome6 name="eye" size={20} color="gray" />
-            <FontAwesome6 name="eye-slash" size={20} color="gray" />
-          </InputSlot>
-        </Input>
-
-        <Button w={"$full"} onPress={() => navigation.goBack()}>
-          <ButtonText>Sign up</ButtonText>
-        </Button>
-
-        <HStack alignItems="center">
-          <Divider />
-          <Text>Or sign up with</Text>
-          <Divider />
-        </HStack>
-
-        <HStack gap={5}>
-          <HStack
-            flex={1}
-            p={"$3"}
-            justifyContent="center"
-            gap={10}
-            borderWidth={2}
-            borderColor="lightgray"
-            borderRadius={10}
+          <Text mt={"$3"} style={styles.inputLogo}>
+            User name
+          </Text>
+          <Input
+            variant="rounded"
+            size="lg"
+            isDisabled={false}
+            isInvalid={false}
+            isReadOnly={false}
           >
-            <FontAwesome6 name="google" size={24} color="orange" />
-            <Text>Google</Text>
-          </HStack>
-          <HStack
-            flex={1}
-            p={"$3"}
-            justifyContent="center"
-            gap={10}
-            borderWidth={2}
-            borderColor="lightgray"
-            borderRadius={10}
-          >
-            <FontAwesome6 name="facebook" size={24} color="blue" />
-            <Text>Facebook</Text>
-          </HStack>
-        </HStack>
+            <InputSlot ml={"$3"}>
+              <FontAwesome6 name="user" size={20} color="gray" />
+            </InputSlot>
+            <InputField placeholder="Enter your Name" />
+          </Input>
 
-        <HStack>
-          <Text>Already have an account ? </Text>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text color="blue">Sign in</Text>
-          </TouchableOpacity>
-        </HStack>
+          {/* email input */}
+
+          <Text mt={"$3"} style={styles.inputLogo}>
+            Email
+          </Text>
+          <Input
+            variant="rounded"
+            size="lg"
+            isDisabled={false}
+            isInvalid={false}
+            isReadOnly={false}
+          >
+            <InputSlot ml={"$3"}>
+              <FontAwesome6 name="envelope" size={20} color="gray" />
+            </InputSlot>
+            <InputField placeholder="Enter your Email" />
+          </Input>
+
+          {/* password input */}
+
+          <Text mt={"$3"} style={styles.inputLogo}>
+            Password
+          </Text>
+          <Input
+            variant="rounded"
+            size="lg"
+            isDisabled={false}
+            isInvalid={false}
+            isReadOnly={false}
+          >
+            <InputSlot ml={"$3"}>
+              <FontAwesome6 name="lock" size={20} color="gray" />
+            </InputSlot>
+            <InputField
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password"
+            />
+            <InputSlot mr={"$2"}>
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <FontAwesome6
+                  name={showPassword ? "eye" : "eye-slash"}
+                  size={20}
+                  color="gray"
+                />
+              </TouchableOpacity>
+            </InputSlot>
+          </Input>
+
+          {/* Confirm Pasword */}
+
+          <Text mt={"$3"} style={styles.inputLogo}>
+            Confirm password
+          </Text>
+          <Input
+            variant="rounded"
+            size="lg"
+            isDisabled={false}
+            isInvalid={false}
+            isReadOnly={false}
+          >
+            <InputSlot ml={"$3"}>
+              <FontAwesome6 name="lock" size={20} color="gray" />
+            </InputSlot>
+            <InputField
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password"
+            />
+            <InputSlot mr={"$2"}>
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <FontAwesome6
+                  name={showPassword ? "eye" : "eye-slash"}
+                  size={20}
+                  color="gray"
+                />
+              </TouchableOpacity>
+            </InputSlot>
+          </Input>
+
+          <Button
+            bg="#0ea5e9"
+            mt={"$4"}
+            w={"$full"}
+            onPress={() => navigation.goBack()}
+          >
+            <ButtonText>Sign up</ButtonText>
+          </Button>
+
+          <HStack mt={"$3"} alignItems="center">
+            <Divider />
+            <Text>Or sign up with</Text>
+            <Divider />
+          </HStack>
+
+          <HStack mt={"$3"} gap={5}>
+            <HStack
+              flex={1}
+              p={"$3"}
+              justifyContent="center"
+              gap={10}
+              borderWidth={2}
+              borderColor="lightgray"
+              borderRadius={10}
+            >
+              <FontAwesome6 name="google" size={24} color="orange" />
+              <Text>Google</Text>
+            </HStack>
+            <HStack
+              flex={1}
+              p={"$3"}
+              justifyContent="center"
+              gap={10}
+              borderWidth={2}
+              borderColor="lightgray"
+              borderRadius={10}
+            >
+              <FontAwesome6 name="facebook" size={24} color="blue" />
+              <Text>Facebook</Text>
+            </HStack>
+          </HStack>
+
+          <HStack my={"$4"}>
+            <Text>Already have an account ? </Text>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text color="blue">Sign in</Text>
+            </TouchableOpacity>
+          </HStack>
+        </ScrollView>
       </View>
     </View>
   );
@@ -165,12 +207,11 @@ const styles = StyleSheet.create({
   },
   loginArea: {
     flex: 1,
-    marginTop: "25%",
+    marginTop: "20%",
     backgroundColor: "white",
     borderTopLeftRadius: PERCENT[15],
     borderTopRightRadius: PERCENT[15],
     elevation: 10,
-    alignItems: "center",
     paddingHorizontal: "10%",
   },
   backArrow: {
@@ -182,5 +223,24 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
+  },
+  inputLogo: {
+    color: "gray",
+    fontSize: PERCENT[3],
+    alignSelf: "flex-start",
+  },
+  heading: {
+    marginTop: "3%",
+    fontWeight: "bold",
+    fontSize: PERCENT[8],
+    alignSelf: "center",
+  },
+  subHeading: {
+    fontSize: PERCENT[4],
+    marginVertical: "3%",
+    alignSelf: "center",
+  },
+  linkText: {
+    color: "#0ea5e9",
   },
 });
