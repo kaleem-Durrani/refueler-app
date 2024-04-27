@@ -15,13 +15,14 @@ export default function HistoryCard(props: any) {
       bg="white"
       alignItems="center"
       p={"$2"}
-      m={"$1"}
+      my={"$1"}
+      mx={"4%"}
       elevation={5}
       borderRadius={10}
     >
       <View flex={1} alignItems="center">
         {props.paymentBy === "cash" ? (
-          <FontAwesome6 name="hand-holding-dollar" size={24} color="black" />
+          <FontAwesome6 name="hand-holding-dollar" size={24} color="#22c55e" />
         ) : props.paymentBy === "app" ? (
           <FontAwesome6
             name="mobile-screen-button"
@@ -29,7 +30,7 @@ export default function HistoryCard(props: any) {
             color="black"
           />
         ) : (
-          <FontAwesome6 name="credit-card" size={24} color="black" />
+          <FontAwesome6 name="credit-card" size={24} color="#6d28d9" />
         )}
       </View>
       <VStack flex={3}>

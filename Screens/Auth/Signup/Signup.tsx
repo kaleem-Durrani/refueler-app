@@ -19,7 +19,7 @@ export default function Signup() {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backArrow}>
-        <FontAwesome6 name="arrow-left-long" size={50} color="white" />
+        <FontAwesome6 name="arrow-left-long" size={40} color="white" />
       </TouchableOpacity>
       <Text style={styles.text}>Sign up</Text>
       <View style={styles.loginArea}>

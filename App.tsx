@@ -11,9 +11,9 @@ export default function App() {
     <NavigationContainer>
       <GluestackUIProvider config={config}>
         <View display="flex" flex={1} mt={"$8"} bg="transparent">
-          {/* <TabNavigator /> */}
+          <TabNavigator />
           {/* <Login /> */}
-          <Signup />
+          {/* <Signup /> */}
         </View>
       </GluestackUIProvider>
     </NavigationContainer>

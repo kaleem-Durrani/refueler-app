@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "@gluestack-ui/themed";
+import { View, Text, HStack } from "@gluestack-ui/themed";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -46,7 +46,21 @@ export default function TabNavigator() {
           }
 
           // Return the Ionicons component with the appropriate icon name, color, and size
-          return (
+          return focused ? (
+            <HStack
+              alignItems="center"
+              w={"80%"}
+              h={"$12"}
+              borderRadius="$full"
+              backgroundColor={circleColor}
+              justifyContent="space-around"
+            >
+              <Ionicons name={iconName} size={size} color={iconColor} />
+              <Text fontWeight="bold" color="white" mr={"$1"}>
+                {route.name}
+              </Text>
+            </HStack>
+          ) : (
             <View alignContent="center">
               <View
                 w={"$12"}
@@ -68,4 +82,19 @@ export default function TabNavigator() {
       <Tab.Screen name="Profile" component={ProfileTab} />
     </Tab.Navigator>
   );
+}
+
+{
+  /* <View alignContent="center">
+              <View
+                w={"$12"}
+                h={"$12"}
+                borderRadius="$full"
+                backgroundColor={circleColor}
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Ionicons name={iconName} size={size} color={iconColor} />
+              </View>
+            </View> */
 }
