@@ -53,7 +53,7 @@ export default function TabNavigator() {
               h={"$12"}
               borderRadius="$full"
               backgroundColor={circleColor}
-              justifyContent="space-around"
+              justifyContent="space-evenly"
             >
               <Ionicons name={iconName} size={size} color={iconColor} />
               <Text fontWeight="bold" color="white" mr={"$1"}>

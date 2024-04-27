@@ -43,9 +43,7 @@ export default function RefuelerHistory() {
             </SelectDragIndicatorWrapper>
             <ScrollView showsVerticalScrollIndicator={false}>
               <SelectItem label="Jamil Khan" value="ux" />
-              <Divider />
               <SelectItem label="Asad Bhai" value="web" />
-              <Divider />
               <SelectItem label="Jabbar Ustad" value="web" />
               <SelectItem label="Agha zwan" value="web" />
               <SelectItem label="Aa bal zwan" value="web" />
@@ -67,13 +65,16 @@ export default function RefuelerHistory() {
           resizeMode="cover"
         />
       </View>
-      <Divider />
+      <Divider my={"$1"} />
       <View flex={1.4} mx={"$3"}>
         <ScrollView
           contentContainerStyle={{ alignItems: "center" }}
           horizontal
           showsHorizontalScrollIndicator={false}
           flex={1}
+          bg={"white"}
+          elevation={5}
+          borderRadius={10}
         >
           <FilterText text={"Today"} />
           <FilterText text={"This Week"} />
@@ -86,7 +87,7 @@ export default function RefuelerHistory() {
         </ScrollView>
       </View>
 
-      <Divider />
+      <Divider mt={"$2"} />
 
       <VStack flex={8} px={"$3"} py={"$2"}>
         <ScrollView showsVerticalScrollIndicator={false}>
