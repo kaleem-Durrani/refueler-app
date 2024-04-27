@@ -15,10 +15,13 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { PERCENT } from "../../../Constants/Constants";
 import { FontAwesome6 } from "@expo/vector-icons";
 
-export default function Signup() {
+export default function Signup({ navigation }: any) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backArrow}>
+      <TouchableOpacity
+        style={styles.backArrow}
+        onPress={() => navigation.goBack()}
+      >
         <FontAwesome6 name="arrow-left-long" size={40} color="white" />
       </TouchableOpacity>
       <Text style={styles.text}>Sign up</Text>
@@ -97,6 +100,10 @@ export default function Signup() {
           </InputSlot>
         </Input>
 
+        <Button w={"$full"} onPress={() => navigation.goBack()}>
+          <ButtonText>Sign up</ButtonText>
+        </Button>
+
         <HStack alignItems="center">
           <Divider />
           <Text>Or sign up with</Text>
@@ -132,7 +139,7 @@ export default function Signup() {
 
         <HStack>
           <Text>Already have an account ? </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Text color="blue">Sign in</Text>
           </TouchableOpacity>
         </HStack>

@@ -6,20 +6,28 @@ import {
   AvatarFallbackText,
   ScrollView,
 } from "@gluestack-ui/themed";
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { PERCENT } from "../../../Constants/Constants";
 import ProfileCard from "./ProfileCard";
 import { Octicons } from "@expo/vector-icons";
+import { AuthContext } from "../../../Contexts/AuthContext";
 
 export default function ProfileTab() {
+  const { user, setUser } = useContext(AuthContext);
+
   return (
     <VStack style={styles.container}>
-      <TouchableOpacity style={styles.logOutButton}>
+      <TouchableOpacity
+        style={styles.logOutButton}
+        onPress={() => setUser(null)}
+      >
         <Octicons name="sign-out" size={PERCENT[7]} color="white" />
       </TouchableOpacity>
+
       <Text style={[styles.title, styles.textShadow]}>Profile</Text>
+
       <View style={styles.profileArea}>
         <Avatar style={styles.avatar} bgColor="$info400" size="2xl">
           <AvatarFallbackText style={styles.textShadow}>
@@ -73,6 +81,7 @@ export default function ProfileTab() {
             iconName={"door-open"}
             iconColor={"#8b5cf6"}
             iconBgColor={"#ddd6fe"}
+            onPress={() => setUser(null)}
           />
         </ScrollView>
       </View>

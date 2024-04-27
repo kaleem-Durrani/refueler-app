@@ -8,7 +8,7 @@ import { PERCENT } from "../../../Constants/Constants";
 
 export default function ProfileCard(props: any) {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={props.onPress}>
       <View style={styles.iconContainer}>
         <View bg={props.iconBgColor} padding={"20%"} borderRadius={"$full"}>
           <FontAwesome6

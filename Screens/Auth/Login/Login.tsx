@@ -10,12 +10,15 @@ import {
   HStack,
   Divider,
 } from "@gluestack-ui/themed";
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { PERCENT } from "../../../Constants/Constants";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { AuthContext } from "../../../Contexts/AuthContext";
 
-export default function Login() {
+export default function Login({ navigation }: any) {
+  const { user, setUser } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Login</Text>
@@ -60,7 +63,7 @@ export default function Login() {
 
         <Text alignSelf="flex-end">Forgot your password?</Text>
 
-        <Button w={"$full"}>
+        <Button w={"$full"} onPress={() => setUser(true)}>
           <ButtonText>Sign in</ButtonText>
         </Button>
 
@@ -99,7 +102,7 @@ export default function Login() {
 
         <HStack>
           <Text>Dont have an account ? </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
             <Text color="blue">Sign up</Text>
           </TouchableOpacity>
         </HStack>
