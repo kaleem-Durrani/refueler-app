@@ -14,19 +14,43 @@ export default function HistoryTab() {
   const [choice, setChoice] = useState(1);
 
   return (
-    <View bg="white" display="flex" flex={1}>
+    <View display="flex" flex={1} bg="white">
       <View
-        bg="white"
-        borderRadius={10}
+        bg="$info500"
+        // borderRadius={20}
+        borderBottomLeftRadius={30}
+        borderBottomRightRadius={30}
         flexDirection="row"
-        justifyContent="space-around"
-        m={"$3"}
-        py={"$3"}
+        // justifyContent="space-around"
+        px={"$2"}
+        py={"$5"}
+        gap={"$1"}
+        mb={"$3"}
+        mt={"-$2"}
         elevation={5}
       >
-        <MyButton text={"My History"} onPress={() => setChoice(1)} />
-        <MyButton text={"Employee History"} onPress={() => setChoice(2)} />
-        <MyButton text={"Management"} onPress={() => setChoice(3)} />
+        <MyButton
+          text={"My History"}
+          image={require("../../../assets/images/MyRecord.png")}
+          currentChoice={choice}
+          myChoice={1}
+          onPress={() => setChoice(1)}
+        />
+        <MyButton
+          text={"Employee History"}
+          image={require("../../../assets/images/EmployeeRecord.png")}
+          currentChoice={choice}
+          myChoice={2}
+          onPress={() => setChoice(2)}
+        />
+        <MyButton
+          text={"Management"}
+          image={require("../../../assets/images/EmployeeManagement.png")}
+          currentChoice={choice}
+          myChoice={3}
+          onPress={() => setChoice(3)}
+          // disabled
+        />
       </View>
 
       <View flex={1} bg="white">

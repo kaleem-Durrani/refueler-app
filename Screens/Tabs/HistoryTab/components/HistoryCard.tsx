@@ -15,7 +15,7 @@ export default function HistoryCard(props: any) {
       bg="white"
       alignItems="center"
       p={"$2"}
-      my={"$1"}
+      my={"$2"}
       mx={"4%"}
       elevation={5}
       borderRadius={10}

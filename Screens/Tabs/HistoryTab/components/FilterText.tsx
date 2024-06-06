@@ -1,22 +1,30 @@
 import { View, Text } from "@gluestack-ui/themed";
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { COLORS } from "../../../../Constants/Constants";
+import { COLORS, PERCENT } from "../../../../Constants/Constants";
 
 export default function FilterText(props: any) {
   return (
     <TouchableOpacity
+      onPress={props.onPress}
       style={{
         borderWidth: 1,
         borderRadius: 20,
         marginHorizontal: 5,
-        padding: 6,
+        padding: PERCENT[2],
+        paddingHorizontal: PERCENT[3],
         borderColor: COLORS.button,
-        backgroundColor: "white",
-        elevation: 3,
+        backgroundColor: props.filter === props.text ? COLORS.primary : "white",
+        elevation: 6,
       }}
     >
-      <Text color={COLORS.primary}>{props.text}</Text>
+      {props.filter === props.text ? (
+        <Text color={"white"}>{props.text}</Text>
+      ) : (
+        <Text color={COLORS.primary}>{props.text}</Text>
+      )}
+
+      {/* <Text color={COLORS.primary}>{props.text}</Text> */}
     </TouchableOpacity>
   );
 }

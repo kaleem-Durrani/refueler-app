@@ -161,9 +161,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: "10%",
   },
   inputLogo: {
-    color: "gray",
-    fontSize: PERCENT[3],
+    color: "#0ea5e9",
+    fontSize: PERCENT[4],
     alignSelf: "flex-start",
+    marginLeft: PERCENT[3],
+    fontWeight: "bold",
+    marginBottom: PERCENT[1],
   },
   heading: {
     marginTop: "3%",

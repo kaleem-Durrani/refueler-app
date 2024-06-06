@@ -181,7 +181,7 @@ export default function Signup({ navigation }: any) {
           <HStack my={"$4"}>
             <Text>Already have an account ? </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text color="blue">Sign in</Text>
+              <Text style={styles.linkText}>Sign in</Text>
             </TouchableOpacity>
           </HStack>
         </ScrollView>
@@ -225,9 +225,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputLogo: {
-    color: "gray",
-    fontSize: PERCENT[3],
+    color: "#0ea5e9",
+    fontSize: PERCENT[4],
     alignSelf: "flex-start",
+    marginLeft: PERCENT[3],
+    fontWeight: "bold",
+    marginBottom: PERCENT[1],
   },
   heading: {
     marginTop: "3%",
@@ -242,5 +245,10 @@ const styles = StyleSheet.create({
   },
   linkText: {
     color: "#0ea5e9",
+  },
+  textShadow: {
+    textShadowColor: "rgba(0, 0, 0, 0.4)", // Shadow color
+    textShadowOffset: { width: 2, height: 3 }, // Shadow offset
+    textShadowRadius: 3,
   },
 });
