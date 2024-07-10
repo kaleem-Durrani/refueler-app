@@ -4,7 +4,8 @@ This is a React Native + [Gluestack-ui](https://ui.gluestack.io/) project templa
 
 # Project Demo : 
 
-https://github.com/kaleem-Durrani/refueler-app/assets/160228066/62d8c4a5-aafc-4a8e-be29-3c3a8e2517e2
+https://github.com/kaleem-Durrani/refueler-app/assets/160228066/d0d3a462-a520-49cd-a880-dc6dd970be9c
+
 
 
 # Screenshots:

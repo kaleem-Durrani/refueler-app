@@ -1,7 +1,7 @@
-import { View, Text } from "@gluestack-ui/themed";
+import { View, Text, Image } from "@gluestack-ui/themed";
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { COLORS } from "../../../../Constants/Constants";
+import { COLORS, PERCENT } from "../../../../Constants/Constants";
 
 export default function MyButton(props: any) {
   return props.disabled ? (
@@ -10,12 +10,20 @@ export default function MyButton(props: any) {
         borderRadius: 15,
         alignItems: "center",
         justifyContent: "center",
-        padding: 6,
-        borderWidth: 2,
-        borderColor: "lightgray",
+        backgroundColor: "white",
+        flex: props.currentChoice === props.myChoice ? 3 : 2,
+        overflow: "hidden",
+        elevation: 20,
+        opacity: 0.6,
       }}
     >
-      <Text color={"lightgray"}>{props.text}</Text>
+      <Image
+        w={"100%"}
+        backgroundColor={"rgba(0,0,0,0.6)"}
+        resizeMode="contain"
+        alt="something"
+        source={props.image}
+      />
     </View>
   ) : (
     <TouchableOpacity
@@ -24,12 +32,24 @@ export default function MyButton(props: any) {
         borderRadius: 15,
         alignItems: "center",
         justifyContent: "center",
-        padding: 6,
-        borderWidth: 1,
-        borderColor: COLORS.primary,
+        backgroundColor: "white",
+        flex: props.currentChoice === props.myChoice ? 3 : 2,
+        overflow: "hidden",
+        elevation: 20,
       }}
     >
-      <Text color={COLORS.primary}>{props.text}</Text>
+      <Image
+        w={"100%"}
+        backgroundColor={
+          props.currentChoice == props.myChoice ? "#7dd3fc" : "#7dd3fc"
+        }
+        resizeMode="contain"
+        alt="something"
+        source={props.image}
+      />
+      {/* <Text>hi</Text> */}
     </TouchableOpacity>
   );
 }
+
+// #7dd3fc

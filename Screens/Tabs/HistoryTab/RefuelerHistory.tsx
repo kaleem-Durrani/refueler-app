@@ -7,12 +7,15 @@ import {
   HStack,
   Divider,
 } from "@gluestack-ui/themed";
-import React from "react";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import HistoryCard from "./components/HistoryCard";
 import FilterText from "./components/FilterText";
+import { PERCENT } from "../../../Constants/Constants";
 
 export default function RefuelerHistory() {
+  const [filter, setFilter] = useState("Today");
+
   return (
     <VStack flex={1} px={"$0"}>
       <View flex={4} bg={"gray"}>
@@ -28,21 +31,53 @@ export default function RefuelerHistory() {
       <View flex={1.4} mx={"$3"} bg={"white"} my={"$2"} borderRadius={10}>
         <ScrollView
           borderRadius={10}
-          bg={"white"}
-          elevation={5}
+          // bg={"white"}
+          // elevation={5}
           contentContainerStyle={{ alignItems: "center" }}
           horizontal
           showsHorizontalScrollIndicator={false}
           flex={1}
         >
-          <FilterText text={"Today"} />
-          <FilterText text={"This Week"} />
-          <FilterText text={"This Month"} />
-          <FilterText text={"3 Months"} />
-          <FilterText text={"6 Months"} />
-          <FilterText text={"This Year"} />
-          <FilterText text={"2 Years"} />
-          <FilterText text={"All time"} />
+          <FilterText
+            onPress={() => setFilter("Today")}
+            filter={filter}
+            text={"Today"}
+          />
+          <FilterText
+            onPress={() => setFilter("This Week")}
+            filter={filter}
+            text={"This Week"}
+          />
+          <FilterText
+            onPress={() => setFilter("This Month")}
+            filter={filter}
+            text={"This Month"}
+          />
+          <FilterText
+            onPress={() => setFilter("3 Months")}
+            filter={filter}
+            text={"3 Months"}
+          />
+          <FilterText
+            onPress={() => setFilter("6 Months")}
+            filter={filter}
+            text={"6 Months"}
+          />
+          <FilterText
+            onPress={() => setFilter("This Year")}
+            filter={filter}
+            text={"This Year"}
+          />
+          <FilterText
+            onPress={() => setFilter("2 Years")}
+            filter={filter}
+            text={"2 Years"}
+          />
+          <FilterText
+            onPress={() => setFilter("All time")}
+            filter={filter}
+            text={"All time"}
+          />
         </ScrollView>
       </View>
 

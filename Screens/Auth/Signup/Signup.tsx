@@ -13,8 +13,8 @@ import {
 } from "@gluestack-ui/themed";
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { PERCENT } from "../../../Constants/Constants";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { PERCENT, COLORS } from "../../../Constants/Constants";
+import { MaterialIcons, FontAwesome6 } from "@expo/vector-icons";
 
 export default function Signup({ navigation }: any) {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +25,7 @@ export default function Signup({ navigation }: any) {
         style={styles.backArrow}
         onPress={() => navigation.goBack()}
       >
-        <FontAwesome6 name="arrow-left-long" size={40} color="white" />
+        <MaterialIcons name="arrow-back-ios" size={22} color="white" />
       </TouchableOpacity>
       <Text style={styles.text}>Sign up</Text>
 
@@ -53,7 +53,7 @@ export default function Signup({ navigation }: any) {
             isReadOnly={false}
           >
             <InputSlot ml={"$3"}>
-              <FontAwesome6 name="user" size={20} color="gray" />
+              <MaterialIcons name="person" size={20} color={COLORS.tertiary} />
             </InputSlot>
             <InputField placeholder="Enter your Name" />
           </Input>
@@ -71,7 +71,7 @@ export default function Signup({ navigation }: any) {
             isReadOnly={false}
           >
             <InputSlot ml={"$3"}>
-              <FontAwesome6 name="envelope" size={20} color="gray" />
+              <MaterialIcons name="email" size={20} color={COLORS.tertiary} />
             </InputSlot>
             <InputField placeholder="Enter your Email" />
           </Input>
@@ -89,7 +89,11 @@ export default function Signup({ navigation }: any) {
             isReadOnly={false}
           >
             <InputSlot ml={"$3"}>
-              <FontAwesome6 name="lock" size={20} color="gray" />
+              <MaterialIcons
+                name="password"
+                size={20}
+                color={COLORS.tertiary}
+              />
             </InputSlot>
             <InputField
               type={showPassword ? "text" : "password"}
@@ -97,10 +101,10 @@ export default function Signup({ navigation }: any) {
             />
             <InputSlot mr={"$2"}>
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <FontAwesome6
-                  name={showPassword ? "eye" : "eye-slash"}
-                  size={20}
-                  color="gray"
+                <MaterialIcons
+                  name={showPassword ? "visibility" : "visibility-off"}
+                  size={24}
+                  color={COLORS.tertiary}
                 />
               </TouchableOpacity>
             </InputSlot>
@@ -119,7 +123,11 @@ export default function Signup({ navigation }: any) {
             isReadOnly={false}
           >
             <InputSlot ml={"$3"}>
-              <FontAwesome6 name="lock" size={20} color="gray" />
+              <MaterialIcons
+                name="password"
+                size={20}
+                color={COLORS.tertiary}
+              />
             </InputSlot>
             <InputField
               type={showPassword ? "text" : "password"}
@@ -127,10 +135,10 @@ export default function Signup({ navigation }: any) {
             />
             <InputSlot mr={"$2"}>
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <FontAwesome6
-                  name={showPassword ? "eye" : "eye-slash"}
-                  size={20}
-                  color="gray"
+                <MaterialIcons
+                  name={showPassword ? "visibility" : "visibility-off"}
+                  size={24}
+                  color={COLORS.tertiary}
                 />
               </TouchableOpacity>
             </InputSlot>
@@ -173,7 +181,7 @@ export default function Signup({ navigation }: any) {
               borderColor="lightgray"
               borderRadius={10}
             >
-              <FontAwesome6 name="facebook" size={24} color="blue" />
+              <MaterialIcons name="facebook" size={24} color="blue" />
               <Text>Facebook</Text>
             </HStack>
           </HStack>
@@ -181,7 +189,7 @@ export default function Signup({ navigation }: any) {
           <HStack my={"$4"}>
             <Text>Already have an account ? </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text color="blue">Sign in</Text>
+              <Text style={styles.linkText}>Sign in</Text>
             </TouchableOpacity>
           </HStack>
         </ScrollView>
@@ -193,13 +201,13 @@ export default function Signup({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#7dd3fc",
+    backgroundColor: COLORS.tertiary,
   },
   text: {
     marginTop: "15%",
     alignSelf: "center",
     color: "white",
-    fontSize: 50,
+    fontSize: PERCENT[10],
     fontWeight: "bold",
     textShadowColor: "rgba(0, 0, 0, 0.4)", // Shadow color
     textShadowOffset: { width: 2, height: 3 }, // Shadow offset
@@ -209,8 +217,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: "20%",
     backgroundColor: "white",
-    borderTopLeftRadius: PERCENT[15],
-    borderTopRightRadius: PERCENT[15],
+    borderTopLeftRadius: PERCENT[10],
+    borderTopRightRadius: PERCENT[10],
     elevation: 10,
     paddingHorizontal: "10%",
   },
@@ -218,16 +226,16 @@ const styles = StyleSheet.create({
     position: "absolute",
     margin: "3%",
     zIndex: 5,
-    borderWidth: 2,
-    borderColor: "white",
-    borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
   },
   inputLogo: {
-    color: "gray",
-    fontSize: PERCENT[3],
+    color: COLORS.tertiary,
+    fontSize: PERCENT[4],
     alignSelf: "flex-start",
+    marginLeft: PERCENT[3],
+    fontWeight: "bold",
+    marginBottom: PERCENT[1],
   },
   heading: {
     marginTop: "3%",
@@ -241,6 +249,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   linkText: {
-    color: "#0ea5e9",
+    color: COLORS.activeText,
+  },
+  textShadow: {
+    textShadowColor: "rgba(0, 0, 0, 0.4)", // Shadow color
+    textShadowOffset: { width: 2, height: 3 }, // Shadow offset
+    textShadowRadius: 3,
   },
 });

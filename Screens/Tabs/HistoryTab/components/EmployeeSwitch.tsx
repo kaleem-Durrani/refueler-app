@@ -16,19 +16,19 @@ export default function EmployeeSwitch(props: any) {
     <HStack
       bg={"white"}
       borderRadius={10}
-      mx={"$3"}
+      mx={"$6"}
       my={"$1"}
       p={"$2"}
       elevation={5}
       alignItems="center"
     >
-      <View flex={1}>
-        <Avatar bgColor={COLORS.primary} size="lg" borderRadius="$full">
+      <View flex={1} mr={12}>
+        <Avatar bgColor={"$info400"} size="lg" borderRadius="$full">
           <AvatarFallbackText>{props.name}</AvatarFallbackText>
         </Avatar>
       </View>
       <VStack flex={3}>
-        <Text fontWeight="bold" color={COLORS.primary}>
+        <Text fontWeight="bold" color={COLORS.text}>
           {props.name}
         </Text>
         <Divider />

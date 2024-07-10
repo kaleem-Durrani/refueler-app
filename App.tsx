@@ -1,15 +1,27 @@
+// import "react-native-reanimated";
 import "react-native-gesture-handler";
 import { config } from "@gluestack-ui/config";
-import { Box, GluestackUIProvider, Text, View } from "@gluestack-ui/themed";
+import {
+  Box,
+  GluestackUIProvider,
+  StatusBar,
+  View,
+} from "@gluestack-ui/themed";
 import { NavigationContainer } from "@react-navigation/native";
 import { ScrollView } from "react-native";
 import TabNavigator from "./Navigations/TabNavigator";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import Login from "./Screens/Auth/Login/Login";
 import Signup from "./Screens/Auth/Signup/Signup";
 import { useState } from "react";
 import { AuthContext } from "./Contexts/AuthContext";
+import PersonalDetail from "./Screens/Tabs/ProfileTab/PersonalDetail";
+import Notifications from "./Screens/Tabs/ProfileTab/Notifications";
+import FAQ from "./Screens/Tabs/ProfileTab/FAQ";
+import PasswordChange from "./Screens/Tabs/ProfileTab/PasswordChange";
+import { COLORS } from "./Constants/Constants";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,24 +32,44 @@ export default function App() {
     <AuthContext.Provider value={{ user, setUser }}>
       <NavigationContainer>
         <GluestackUIProvider config={config}>
-          <View display="flex" flex={1} mt={"$8"} bg="transparent">
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              {user ? (
-                <Stack.Group>
-                  <Stack.Screen name="home" component={TabNavigator} />
-                </Stack.Group>
-              ) : (
-                <Stack.Group>
-                  <Stack.Screen name="Login" component={Login} />
-                  <Stack.Screen name="Signup" component={Signup} />
-                </Stack.Group>
-              )}
-            </Stack.Navigator>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <View display="flex" flex={1} bg="transparent">
+              <StatusBar
+                barStyle="light-content"
+                backgroundColor={COLORS.tertiary}
+                translucent={false}
+              />
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                {user ? (
+                  <Stack.Group>
+                    <Stack.Screen name="home" component={TabNavigator} />
+                    <Stack.Screen
+                      name="Personal Detail"
+                      component={PersonalDetail}
+                    />
+                    <Stack.Screen
+                      name="Notifications"
+                      component={Notifications}
+                    />
+                    <Stack.Screen
+                      name="PasswordChange"
+                      component={PasswordChange}
+                    />
+                    <Stack.Screen name="FAQ" component={FAQ} />
+                  </Stack.Group>
+                ) : (
+                  <Stack.Group>
+                    <Stack.Screen name="Login" component={Login} />
+                    <Stack.Screen name="Signup" component={Signup} />
+                  </Stack.Group>
+                )}
+              </Stack.Navigator>
 
-            {/* <TabNavigator /> */}
-            {/* <Login /> */}
-            {/* <Signup /> */}
-          </View>
+              {/* <TabNavigator /> */}
+              {/* <Login /> */}
+              {/* <Signup /> */}
+            </View>
+          </GestureHandlerRootView>
         </GluestackUIProvider>
       </NavigationContainer>
     </AuthContext.Provider>

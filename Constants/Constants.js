@@ -4,14 +4,12 @@ import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 export const COLORS = {
-  black: "#000000",
-  white: "#FFFFFF",
-  primary: "#0ea5e9",
-  secondary: "#4aa9ff",
-  button: "#4aa9ff",
-  // Add more colors as needed
+  primary: "#FFF",
+  secondary: "#ebeeff",
+  tertiary: "#296DCE",
+  text: "#000",
+  activeText: "#296DCE",
 };
-
 export const SIZES = {
   something: "$11",
   small: 12,

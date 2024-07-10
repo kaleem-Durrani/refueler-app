@@ -15,7 +15,7 @@ export default function HistoryCard(props: any) {
       bg="white"
       alignItems="center"
       p={"$2"}
-      my={"$1"}
+      my={"$2"}
       mx={"4%"}
       elevation={5}
       borderRadius={10}
@@ -34,7 +34,7 @@ export default function HistoryCard(props: any) {
         )}
       </View>
       <VStack flex={3}>
-        <Text color={COLORS.primary} size="lg" fontWeight="bold">
+        <Text color={COLORS.text} size="lg" fontWeight="bold">
           Name
         </Text>
         <Divider h={"$0.5"} w={"$32"} />
