@@ -12,8 +12,9 @@ import {
 } from "@gluestack-ui/themed";
 import React, { useContext, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { PERCENT } from "../../../Constants/Constants";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { PERCENT, COLORS } from "../../../Constants/Constants";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { AuthContext } from "../../../Contexts/AuthContext";
 
 export default function Login({ navigation }: any) {
@@ -39,7 +40,7 @@ export default function Login({ navigation }: any) {
           isReadOnly={false}
         >
           <InputSlot ml={"$3"}>
-            <FontAwesome6 name="envelope" size={20} color="gray" />
+            <MaterialIcons name="email" size={24} color={COLORS.tertiary} />
           </InputSlot>
           <InputField placeholder="Enter your Email" />
         </Input>
@@ -57,7 +58,7 @@ export default function Login({ navigation }: any) {
           isReadOnly={false}
         >
           <InputSlot ml={"$3"}>
-            <FontAwesome6 name="lock" size={20} color="gray" />
+            <MaterialIcons name="password" size={24} color={COLORS.tertiary} />
           </InputSlot>
           <InputField
             type={showPassword ? "text" : "password"}
@@ -65,10 +66,10 @@ export default function Login({ navigation }: any) {
           />
           <InputSlot mr={"$2"}>
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <FontAwesome6
-                name={showPassword ? "eye" : "eye-slash"}
-                size={20}
-                color="gray"
+              <MaterialIcons
+                name={showPassword ? "visibility" : "visibility-off"}
+                size={24}
+                color={COLORS.tertiary}
               />
             </TouchableOpacity>
           </InputSlot>
@@ -82,8 +83,9 @@ export default function Login({ navigation }: any) {
 
         <Button
           mt={"$5"}
-          bg="#0ea5e9"
+          bg={COLORS.tertiary}
           w={"$full"}
+          borderRadius={10}
           onPress={() => setUser(true)}
         >
           <ButtonText>Sign in</ButtonText>
@@ -107,7 +109,7 @@ export default function Login({ navigation }: any) {
             borderColor="lightgray"
             borderRadius={10}
           >
-            <FontAwesome6 name="google" size={24} color="orange" />
+            <AntDesign name="google" size={24} color="orange" />
             <Text>Google</Text>
           </HStack>
           <HStack
@@ -119,7 +121,7 @@ export default function Login({ navigation }: any) {
             borderColor="lightgray"
             borderRadius={10}
           >
-            <FontAwesome6 name="facebook" size={24} color="blue" />
+            <MaterialIcons name="facebook" size={24} color="blue" />
             <Text>Facebook</Text>
           </HStack>
         </HStack>
@@ -138,13 +140,13 @@ export default function Login({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#7dd3fc",
+    backgroundColor: COLORS.tertiary,
   },
   text: {
     marginTop: "15%",
     alignSelf: "center",
     color: "white",
-    fontSize: 50,
+    fontSize: PERCENT[10],
     fontWeight: "bold",
     textShadowColor: "rgba(0, 0, 0, 0.4)", // Shadow color
     textShadowOffset: { width: 2, height: 3 }, // Shadow offset
@@ -154,14 +156,16 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: "20%",
     backgroundColor: "white",
-    borderTopLeftRadius: PERCENT[15],
-    borderTopRightRadius: PERCENT[15],
+    borderTopLeftRadius: PERCENT[10],
+    borderTopRightRadius: PERCENT[10],
     elevation: 10,
     alignItems: "center",
     paddingHorizontal: "10%",
   },
   inputLogo: {
-    color: "#0ea5e9",
+
+    color: COLORS.tertiary,
+
     fontSize: PERCENT[4],
     alignSelf: "flex-start",
     marginLeft: PERCENT[3],
@@ -178,6 +182,6 @@ const styles = StyleSheet.create({
     marginVertical: "3%",
   },
   linkText: {
-    color: "#0ea5e9",
+    color: COLORS.tertiary,
   },
 });

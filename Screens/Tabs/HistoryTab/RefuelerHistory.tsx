@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import HistoryCard from "./components/HistoryCard";
 import FilterText from "./components/FilterText";
+import { PERCENT } from "../../../Constants/Constants";
 
 export default function RefuelerHistory() {
   const [filter, setFilter] = useState("Today");
