@@ -150,8 +150,10 @@ export default function TabNavigator() {
         tabBarHideOnKeyboard: true,
         tabBarStyle: [
           {
+
             backgroundColor: "#f0f9ff",
             display: isKeyboardOpen ? "none" : "flex",
+
             borderRadius: 100,
             marginHorizontal: PERCENT[5],
             marginVertical: PERCENT[2],
@@ -162,8 +164,10 @@ export default function TabNavigator() {
         ],
         tabBarIcon: ({ color, size, focused }) => {
           let iconName;
+
           let iconColor = focused ? COLORS.primary : "gray";
           let circleColor = focused ? COLORS.tertiary : "transparent";
+
 
           if (route.name === "Home") {
             iconName = "home";
@@ -212,6 +216,7 @@ export default function TabNavigator() {
         },
       })}
     >
+
       <Tab.Screen
         name="Home"
         component={HomeTab}
@@ -257,6 +262,7 @@ export default function TabNavigator() {
           },
         })}
       />
+
     </Tab.Navigator>
   );
 }
