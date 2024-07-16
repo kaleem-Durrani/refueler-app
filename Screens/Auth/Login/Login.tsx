@@ -166,7 +166,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputLogo: {
+
     color: COLORS.tertiary,
+
     fontSize: PERCENT[4],
     alignSelf: "flex-start",
     marginLeft: PERCENT[3],

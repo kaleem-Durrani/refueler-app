@@ -13,15 +13,19 @@ export default function FilterText(props: any) {
         marginHorizontal: 5,
         padding: PERCENT[2],
         paddingHorizontal: PERCENT[3],
+
         borderColor: COLORS.tertiary,
         backgroundColor: props.filter === props.text ? COLORS.text : "white",
+
         elevation: 6,
       }}
     >
       {props.filter === props.text ? (
         <Text color={"white"}>{props.text}</Text>
       ) : (
+
         <Text color={COLORS.text}>{props.text}</Text>
+
       )}
 
       {/* <Text color={COLORS.primary}>{props.text}</Text> */}

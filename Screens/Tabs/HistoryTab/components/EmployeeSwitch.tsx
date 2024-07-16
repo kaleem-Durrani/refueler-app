@@ -23,6 +23,7 @@ export default function EmployeeSwitch(props: any) {
       alignItems="center"
     >
       <View flex={1} mr={12}>
+
         <Avatar bgColor={"$info400"} size="lg" borderRadius="$full">
           <AvatarFallbackText>{props.name}</AvatarFallbackText>
         </Avatar>

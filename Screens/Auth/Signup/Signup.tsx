@@ -230,7 +230,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputLogo: {
+
     color: COLORS.tertiary,
+
     fontSize: PERCENT[4],
     alignSelf: "flex-start",
     marginLeft: PERCENT[3],
@@ -250,6 +252,11 @@ const styles = StyleSheet.create({
   },
   linkText: {
     color: COLORS.activeText,
+  },
+  textShadow: {
+    textShadowColor: "rgba(0, 0, 0, 0.4)", // Shadow color
+    textShadowOffset: { width: 2, height: 3 }, // Shadow offset
+    textShadowRadius: 3,
   },
   textShadow: {
     textShadowColor: "rgba(0, 0, 0, 0.4)", // Shadow color
