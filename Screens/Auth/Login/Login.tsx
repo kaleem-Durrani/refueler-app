@@ -1,3 +1,4 @@
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,55 +11,79 @@ import {
   HStack,
   Divider,
 } from "@gluestack-ui/themed";
-import React, { useContext, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
-import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { AuthContext } from "../../../Contexts/AuthContext";
+// import {
+//   GoogleSignin,
+//   statusCodes,
+//   GoogleSigninButton,
+// } from "@react-native-google-signin/google-signin";
+
+// GoogleSignin.configure({
+//   webClientId:
+//     "257394933258-dtvt1efikomo57q4tuscdqjaumldaj1r.apps.googleusercontent.com", // replace with your web client ID
+//   offlineAccess: true,
+// });
 
 export default function Login({ navigation }: any) {
   const { user, setUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
 
+  // useEffect(() => {
+  //   GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+  // }, []);
+
+  // const _signIn = async () => {
+  //   try {
+  //     await GoogleSignin.hasPlayServices();
+  //     const userInfo = await GoogleSignin.signIn();
+  //     // console.log("User Info", userInfo);
+  //     setUser(userInfo);
+  //   } catch (error: any) {
+  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+  //       console.log("user cancelled the login flow");
+  //     } else if (error.code === statusCodes.IN_PROGRESS) {
+  //       console.log("operation (e.g. sign in) already in progress");
+  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+  //       console.log("play services not available or outdated");
+  //     } else {
+  //       console.log("some other error happened", error);
+  //     }
+  //   }
+  // };
+
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.backArrow}
+        onPress={() => navigation.goBack()}
+      >
+        <MaterialIcons name="arrow-back-ios" size={22} color="white" />
+      </TouchableOpacity>
       <Text style={styles.text}>Login</Text>
-      <View style={styles.loginArea}>
+
+      <View py={"$4"} style={styles.loginArea}>
         <Text style={styles.heading}>Welcome Back</Text>
         <Text style={styles.subHeading}>Enter your details below</Text>
-
         {/* email input */}
         <Text mt={"$3"} style={styles.inputLogo}>
           Email
         </Text>
-        <Input
-          variant="rounded"
-          size="lg"
-          isDisabled={false}
-          isInvalid={false}
-          isReadOnly={false}
-        >
+        <Input variant="rounded" size="lg">
           <InputSlot ml={"$3"}>
-            <MaterialIcons name="email" size={24} color={COLORS.tertiary} />
+            <MaterialIcons name="email" size={20} color={COLORS.tertiary} />
           </InputSlot>
           <InputField placeholder="Enter your Email" />
         </Input>
-
         {/* password input */}
-
         <Text mt={"$3"} style={styles.inputLogo}>
           Password
         </Text>
-        <Input
-          variant="rounded"
-          size="lg"
-          isDisabled={false}
-          isInvalid={false}
-          isReadOnly={false}
-        >
+        <Input variant="rounded" size="lg">
           <InputSlot ml={"$3"}>
-            <MaterialIcons name="password" size={24} color={COLORS.tertiary} />
+            <MaterialIcons name="password" size={20} color={COLORS.tertiary} />
           </InputSlot>
           <InputField
             type={showPassword ? "text" : "password"}
@@ -74,60 +99,32 @@ export default function Login({ navigation }: any) {
             </TouchableOpacity>
           </InputSlot>
         </Input>
-
-        <TouchableOpacity style={{ alignSelf: "flex-end", marginTop: "1%" }}>
+        <TouchableOpacity>
           <Text style={styles.linkText}>Forgot your password?</Text>
         </TouchableOpacity>
-
         {/* sign in button */}
-
         <Button
-          mt={"$5"}
-          bg={COLORS.tertiary}
+          bg="#0ea5e9"
+          mt={"$4"}
           w={"$full"}
-          borderRadius={10}
           onPress={() => setUser(true)}
         >
           <ButtonText>Sign in</ButtonText>
         </Button>
-
-        <HStack alignItems="center" mt={"$3"}>
-          <Divider />
-          <Text>Or sign in with</Text>
-          <Divider />
+        <HStack mt={"$3"} alignItems="center" justifyContent="center">
+          <Divider w={PERCENT[20]} />
+          <Text marginHorizontal={PERCENT[5]}>Or sign in with</Text>
+          <Divider w={PERCENT[20]} />
         </HStack>
-
-        {/* Login with google and facebook */}
-
-        <HStack gap={5} mt={"$4"}>
-          <HStack
-            flex={1}
-            p={"$3"}
-            justifyContent="center"
-            gap={10}
-            borderWidth={2}
-            borderColor="lightgray"
-            borderRadius={10}
-          >
-            <AntDesign name="google" size={24} color="orange" />
-            <Text>Google</Text>
-          </HStack>
-          <HStack
-            flex={1}
-            p={"$3"}
-            justifyContent="center"
-            gap={10}
-            borderWidth={2}
-            borderColor="lightgray"
-            borderRadius={10}
-          >
-            <MaterialIcons name="facebook" size={24} color="blue" />
-            <Text>Facebook</Text>
-          </HStack>
-        </HStack>
-
-        <HStack mt={"$3"}>
-          <Text>Dont have an account ? </Text>
+        Login with google
+        <GoogleSigninButton
+          style={{ width: "100%" }}
+          onPress={_signIn}
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+        />
+        <HStack my={"$4"}>
+          <Text>Don't have an account ? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
             <Text style={styles.linkText}>Sign up</Text>
           </TouchableOpacity>
@@ -148,9 +145,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: PERCENT[10],
     fontWeight: "bold",
-    textShadowColor: "rgba(0, 0, 0, 0.4)", // Shadow color
-    textShadowOffset: { width: 2, height: 3 }, // Shadow offset
-    textShadowRadius: 3, // Shadow radius
+    textShadowColor: "rgba(0, 0, 0, 0.4)",
+    textShadowOffset: { width: 2, height: 3 },
+    textShadowRadius: 3,
   },
   loginArea: {
     flex: 1,
@@ -159,8 +156,14 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: PERCENT[10],
     borderTopRightRadius: PERCENT[10],
     elevation: 10,
-    alignItems: "center",
     paddingHorizontal: "10%",
+  },
+  backArrow: {
+    position: "absolute",
+    margin: "3%",
+    zIndex: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
   inputLogo: {
 
@@ -176,12 +179,14 @@ const styles = StyleSheet.create({
     marginTop: "3%",
     fontWeight: "bold",
     fontSize: PERCENT[8],
+    alignSelf: "center",
   },
   subHeading: {
     fontSize: PERCENT[4],
     marginVertical: "3%",
+    alignSelf: "center",
   },
   linkText: {
-    color: COLORS.tertiary,
+    color: COLORS.activeText,
   },
 });

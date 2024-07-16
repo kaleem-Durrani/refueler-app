@@ -3,6 +3,7 @@ import {
   Text,
   VStack,
   Avatar,
+  AvatarImage,
   AvatarFallbackText,
   ScrollView,
   SafeAreaView,
@@ -14,17 +15,24 @@ import { PERCENT, COLORS } from "../../../Constants/Constants";
 import ProfileCard from "./components/ProfileCard";
 import { Octicons } from "@expo/vector-icons";
 import { AuthContext } from "../../../Contexts/AuthContext";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 export default function ProfileTab({ navigation }: any) {
   const { user, setUser } = useContext(AuthContext);
+  const signOut = async () => {
+    try {
+      await GoogleSignin.signOut();
+      setUser(null);
+      console.log("Google sign out");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <SafeAreaView flex={1}>
       <VStack style={styles.container}>
-        <TouchableOpacity
-          style={styles.logOutButton}
-          onPress={() => setUser(null)}
-        >
+        <TouchableOpacity style={styles.logOutButton} onPress={() => signOut()}>
           <Octicons name="sign-out" size={PERCENT[7]} color="white" />
         </TouchableOpacity>
 
@@ -33,8 +41,14 @@ export default function ProfileTab({ navigation }: any) {
         <View style={styles.profileArea}>
           <Avatar style={styles.avatar} bgColor="$info400" size="2xl">
             <AvatarFallbackText style={styles.textShadow}>
-              Jabbar Ustad
+              {user.user.name}
             </AvatarFallbackText>
+            <AvatarImage
+              source={{
+                uri: user.user.photo,
+              }}
+              alt="user photo"
+            />
             <TouchableOpacity style={styles.cameraButton}>
               <AntDesign
                 style={styles.textShadow}
@@ -45,8 +59,8 @@ export default function ProfileTab({ navigation }: any) {
             </TouchableOpacity>
           </Avatar>
 
-          <Text style={styles.name}>Jabbar Ustad</Text>
-          <Text style={styles.email}>Email</Text>
+          <Text style={styles.name}>{user.user.name}</Text>
+          <Text style={styles.email}>{user.user.email}</Text>
 
           <ScrollView w={"100%"}>
             <ProfileCard
@@ -87,7 +101,7 @@ export default function ProfileTab({ navigation }: any) {
               iconName={"door-open"}
               iconColor={"#8b5cf6"}
               iconBgColor={"#ddd6fe"}
-              onPress={() => setUser(null)}
+              onPress={() => signOut()}
             />
           </ScrollView>
         </View>
