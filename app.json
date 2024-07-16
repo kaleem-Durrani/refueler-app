@@ -14,6 +14,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.expoapp",
       "infoPlist": {
         "NSCameraUsageDescription": "PakFuel Refueler needs access to your Camera."
       }
@@ -23,6 +24,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "useNextBuildSchema": true,
+      "versionCode": 1,
+      "config": {
+        "keystorePath": "./android/your-keystore-name.keystore",
+        "keystoreAlias": "your-alias-name",
+        "keystorePassword": "123456",
+        "keyPassword": "123456"
+      },
       "package": "com.anonymous.expoapp",
       "permissions": ["android.permission.CAMERA"]
     },
@@ -30,6 +39,12 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.257394933258-0k07misquhqt5fkmtofa12b8cb86e4ob"
+        }
+      ],
       [
         "react-native-vision-camera",
         {

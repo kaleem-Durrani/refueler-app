@@ -9,7 +9,7 @@ import {
   FlatList,
   Divider,
 } from "@gluestack-ui/themed";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useContext, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLORS, PERCENT } from "../../../Constants/Constants";
@@ -23,8 +23,11 @@ import {
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { useIsFocused } from "@react-navigation/native";
 import { useAppState } from "@react-native-community/hooks";
+import { AuthContext } from "../../../Contexts/AuthContext";
 
 export default function HomeTab() {
+  const { user }: any = useContext(AuthContext);
+  console.log("User", user.user.email);
   const camera = useRef<Camera>(null);
   const isFocused = useIsFocused();
   const [isSideBarOn, setIsSideBarOn] = useState(false);
@@ -116,6 +119,7 @@ export default function HomeTab() {
             isActive={isActive}
             codeScanner={codeScanner}
           />
+
           <Box style={isSideBarOn ? styles.sidebarOn : styles.sidebarOff}>
             <Text size="md" color={COLORS.primary} bold>
               Previous Scans
@@ -136,6 +140,7 @@ export default function HomeTab() {
               )}
               keyExtractor={(item) => item.id}
             />
+            <Text>{user?.email} NEw User</Text>
           </Box>
           {/* <Image
             size="full"
