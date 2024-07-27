@@ -15,6 +15,10 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { AuthContext } from "../../../Contexts/AuthContext";
+
+import authApi from "../../../api/auth";
+import useAuth from "../../../auth/useAuth";
+
 // import {
 //   GoogleSignin,
 //   statusCodes,
@@ -30,6 +34,44 @@ import { AuthContext } from "../../../Contexts/AuthContext";
 export default function Login({ navigation }: any) {
   const { user, setUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
+
+  const auth = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    // make sure email and password are not empty
+    if (!email || !password) {
+      alert("Please fill in all fields");
+      return;
+    }
+    // verify email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+    // make sure password legnth is at least 6
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
+
+    setLoading(true);
+    const result = await authApi.login(email, password);
+    setLoading(false);
+
+    if (!result.ok) {
+      alert(`${result.problem} ${result.status}\n
+        ${result.data.error}
+        `);
+      return;
+    }
+
+    auth.login(result.data.token);
+  };
 
   // useEffect(() => {
   //   GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -75,7 +117,11 @@ export default function Login({ navigation }: any) {
           <InputSlot ml={"$3"}>
             <MaterialIcons name="email" size={20} color={COLORS.tertiary} />
           </InputSlot>
-          <InputField placeholder="Enter your Email" />
+          <InputField
+            placeholder="Enter your Email"
+            value={email}
+            onChangeText={setEmail}
+          />
         </Input>
         {/* password input */}
         <Text mt={"$3"} style={styles.inputLogo}>
@@ -88,6 +134,8 @@ export default function Login({ navigation }: any) {
           <InputField
             type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
+            value={password}
+            onChangeText={setPassword}
           />
           <InputSlot mr={"$2"}>
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
@@ -107,7 +155,7 @@ export default function Login({ navigation }: any) {
           bg="#0ea5e9"
           mt={"$4"}
           w={"$full"}
-          onPress={() => setUser(true)}
+          onPress={() => handleLogin()}
         >
           <ButtonText>Sign in</ButtonText>
         </Button>
@@ -117,12 +165,12 @@ export default function Login({ navigation }: any) {
           <Divider w={PERCENT[20]} />
         </HStack>
         Login with google
-        <GoogleSigninButton
+        {/* <GoogleSigninButton
           style={{ width: "100%" }}
           onPress={_signIn}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
-        />
+        /> */}
         <HStack my={"$4"}>
           <Text>Don't have an account ? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
@@ -166,7 +214,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputLogo: {
-
     color: COLORS.tertiary,
 
     fontSize: PERCENT[4],

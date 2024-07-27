@@ -1,3 +1,6 @@
+import { decode } from "base-64";
+global.atob = decode;
+
 // import "react-native-reanimated";
 import "react-native-gesture-handler";
 import { config } from "@gluestack-ui/config";
@@ -15,18 +18,34 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import Login from "./Screens/Auth/Login/Login";
 import Signup from "./Screens/Auth/Signup/Signup";
-import { useState } from "react";
-import { AuthContext } from "./Contexts/AuthContext";
+import { useEffect, useState } from "react";
 import PersonalDetail from "./Screens/Tabs/ProfileTab/PersonalDetail";
 import Notifications from "./Screens/Tabs/ProfileTab/Notifications";
 import FAQ from "./Screens/Tabs/ProfileTab/FAQ";
 import PasswordChange from "./Screens/Tabs/ProfileTab/PasswordChange";
 import { COLORS } from "./Constants/Constants";
+import AuthContext from "./auth/context";
+import authStorage from "./auth/storage";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const [isReady, setIsReady] = useState(false);
+
+  const restoreUser = async () => {
+    const user = await authStorage.getUser();
+    if (user) setUser(user);
+    setIsReady(true);
+  };
+
+  useEffect(() => {
+    restoreUser();
+  }, []);
+
+  if (!isReady) {
+    return null; // Keep rendering null until the app is ready
+  }
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

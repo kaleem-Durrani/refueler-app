@@ -15,9 +15,78 @@ import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
 import { MaterialIcons, FontAwesome6 } from "@expo/vector-icons";
+import authApi from "../../../api/auth";
 
 export default function Signup({ navigation }: any) {
   const [showPassword, setShowPassword] = useState(false);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [type, setType] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    // make sure all 6 trimmed fields are not empty
+
+    if (
+      name.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === "" ||
+      confirmPassword.trim() === "" ||
+      phoneNumber.trim() === "" ||
+      type.trim() === ""
+    ) {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    // verify email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
+    // make sure password is at least 6 characters
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
+    // make sure password and confirm password match
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    // make sure phone number is 11 digit long
+    if (phoneNumber.length !== 11) {
+      alert("Phone number must be 11 digits long");
+      return;
+    }
+
+    setLoading(true);
+    const result = await authApi.signup(
+      name,
+      email,
+      password,
+      confirmPassword,
+      phoneNumber,
+      type
+    );
+    setLoading(false);
+
+    if (!result.ok) {
+      alert(`${result.problem} ${result.status}\n
+        ${result.data.error}`);
+      return;
+    }
+
+    alert(`${result.data.message}`);
+    navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
@@ -45,13 +114,7 @@ export default function Signup({ navigation }: any) {
           <Text mt={"$3"} style={styles.inputLogo}>
             User name
           </Text>
-          <Input
-            variant="rounded"
-            size="lg"
-            isDisabled={false}
-            isInvalid={false}
-            isReadOnly={false}
-          >
+          <Input variant="rounded" size="lg" isDisabled={false}>
             <InputSlot ml={"$3"}>
               <MaterialIcons name="person" size={20} color={COLORS.tertiary} />
             </InputSlot>
@@ -63,13 +126,7 @@ export default function Signup({ navigation }: any) {
           <Text mt={"$3"} style={styles.inputLogo}>
             Email
           </Text>
-          <Input
-            variant="rounded"
-            size="lg"
-            isDisabled={false}
-            isInvalid={false}
-            isReadOnly={false}
-          >
+          <Input variant="rounded" size="lg" isDisabled={false}>
             <InputSlot ml={"$3"}>
               <MaterialIcons name="email" size={20} color={COLORS.tertiary} />
             </InputSlot>
@@ -81,13 +138,7 @@ export default function Signup({ navigation }: any) {
           <Text mt={"$3"} style={styles.inputLogo}>
             Password
           </Text>
-          <Input
-            variant="rounded"
-            size="lg"
-            isDisabled={false}
-            isInvalid={false}
-            isReadOnly={false}
-          >
+          <Input variant="rounded" size="lg" isDisabled={false}>
             <InputSlot ml={"$3"}>
               <MaterialIcons
                 name="password"
@@ -115,13 +166,7 @@ export default function Signup({ navigation }: any) {
           <Text mt={"$3"} style={styles.inputLogo}>
             Confirm password
           </Text>
-          <Input
-            variant="rounded"
-            size="lg"
-            isDisabled={false}
-            isInvalid={false}
-            isReadOnly={false}
-          >
+          <Input variant="rounded" size="lg" isDisabled={false}>
             <InputSlot ml={"$3"}>
               <MaterialIcons
                 name="password"
@@ -142,6 +187,30 @@ export default function Signup({ navigation }: any) {
                 />
               </TouchableOpacity>
             </InputSlot>
+          </Input>
+
+          {/* phone Number */}
+
+          <Text mt={"$3"} style={styles.inputLogo}>
+            Phone Number
+          </Text>
+          <Input variant="rounded" size="lg" isDisabled={false}>
+            <InputSlot ml={"$3"}>
+              <MaterialIcons name="person" size={20} color={COLORS.tertiary} />
+            </InputSlot>
+            <InputField placeholder="Enter your Phone Number" />
+          </Input>
+
+          {/* Type */}
+
+          <Text mt={"$3"} style={styles.inputLogo}>
+            Type
+          </Text>
+          <Input variant="rounded" size="lg" isDisabled={false}>
+            <InputSlot ml={"$3"}>
+              <MaterialIcons name="person" size={20} color={COLORS.tertiary} />
+            </InputSlot>
+            <InputField placeholder="Manager or Refueler" />
           </Input>
 
           <Button
@@ -230,7 +299,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputLogo: {
-
     color: COLORS.tertiary,
 
     fontSize: PERCENT[4],
@@ -252,11 +320,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     color: COLORS.activeText,
-  },
-  textShadow: {
-    textShadowColor: "rgba(0, 0, 0, 0.4)", // Shadow color
-    textShadowOffset: { width: 2, height: 3 }, // Shadow offset
-    textShadowRadius: 3,
   },
   textShadow: {
     textShadowColor: "rgba(0, 0, 0, 0.4)", // Shadow color
