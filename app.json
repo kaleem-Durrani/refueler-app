@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.expoapp",
@@ -35,9 +33,7 @@
         "keyPassword": "123456"
       },
       "package": "com.anonymous.expoapp",
-      "permissions": [
-        "android.permission.CAMERA"
-      ]
+      "permissions": ["android.permission.CAMERA"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -47,6 +43,12 @@
         "expo-secure-store",
         {
           "faceIDPermission": "Allow refueler app to access your Face ID biometric data."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ],
       [
@@ -61,8 +63,7 @@
           "cameraPermissionText": "PakFuel Refueler needs access to your Camera.",
           "enableCodeScanner": true
         }
-      ],
-      "expo-secure-store"
+      ]
     ],
     "extra": {
       "eas": {

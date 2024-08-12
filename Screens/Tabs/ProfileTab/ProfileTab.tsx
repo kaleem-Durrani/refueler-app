@@ -6,22 +6,97 @@ import {
   AvatarImage,
   AvatarFallbackText,
   ScrollView,
+  Pressable,
   SafeAreaView,
 } from "@gluestack-ui/themed";
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert, StyleSheet, TouchableOpacity } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
 import ProfileCard from "./components/ProfileCard";
-import { Octicons } from "@expo/vector-icons";
+import { Entypo, Octicons, AntDesign } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
+import employeeApis from "../../../api/employee";
+import useApi from "../../../hooks/useApi";
 
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
+// import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import useAuth from "../../../auth/useAuth";
 import useProfile from "../../../hooks/useProfile";
 
 export default function ProfileTab({ navigation }: any) {
   const { logOut } = useAuth();
   const { profile } = useProfile();
+  const [image, setImage] = useState(null);
+  const uploadImageApi = useApi(employeeApis.uploadImage);
+
+  const uploadProfile = async (cropped) => {
+    await uploadImageApi.request(cropped);
+  };
+
+  useEffect(() => {
+    if (uploadImageApi.data) {
+      console.log("Image uploaded successfully");
+    }
+    if (uploadImageApi.error) {
+      console.log("Error uploading image: ", uploadImageApi.error);
+    }
+  }, [uploadImageApi.data, uploadImageApi.error]);
+
+  const pickImage = async (source) => {
+    let result;
+    if (source === "camera") {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status === "granted") {
+        result = await ImagePicker.launchCameraAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 0.25,
+        });
+      } else {
+        alert("Sorry, we need camera permissions to make this work!");
+        return;
+      }
+    } else {
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.25,
+      });
+    }
+
+    if (!result.canceled) {
+      const base64Image = await convertImageToBase64(result.assets[0].uri);
+      uploadProfile(base64Image);
+      setImage(base64Image);
+    }
+  };
+
+  const convertImageToBase64 = async (uri) => {
+    try {
+      const base64 = await FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      return `data:image/jpeg;base64,${base64}`;
+    } catch (error) {
+      console.error("Error converting image to base64:", error);
+      return null;
+    }
+  };
+
+  const showImagePickerOptions = () => {
+    Alert.alert(
+      "Select Image Source",
+      "",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Camera", onPress: () => pickImage("camera") },
+        { text: "Gallery", onPress: () => pickImage("gallery") },
+      ],
+      { cancelable: true }
+    );
+  };
 
   const confirmLogOut = () => {
     Alert.alert("Log Out", "Are you sure you want to log out?", [
@@ -61,18 +136,21 @@ export default function ProfileTab({ navigation }: any) {
             </AvatarFallbackText>
             <AvatarImage
               source={{
-                uri: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+                uri:
+                  image ||
+                  profile?.imageUrl ||
+                  "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
               }}
               alt="user photo"
             />
-            <TouchableOpacity style={styles.cameraButton}>
-              <AntDesign
-                style={styles.textShadow}
-                name="camerao"
-                size={PERCENT[7]}
-                color="white"
+            <Pressable onPress={showImagePickerOptions}>
+              <Entypo
+                name="camera"
+                size={35}
+                style={{ marginLeft: PERCENT[25], marginTop: PERCENT[8] }}
+                color={COLORS.tertiary}
               />
-            </TouchableOpacity>
+            </Pressable>
           </Avatar>
 
           <Text style={styles.name}>{profile?.name}</Text>
