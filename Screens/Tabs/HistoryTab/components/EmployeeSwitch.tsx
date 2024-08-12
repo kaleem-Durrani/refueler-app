@@ -16,25 +16,32 @@ export default function EmployeeSwitch(props: any) {
     <HStack
       bg={"white"}
       borderRadius={10}
-      mx={"$6"}
+      mx={"$4"}
       my={"$1"}
       p={"$2"}
       elevation={5}
       alignItems="center"
     >
       <View flex={1} mr={12}>
-
         <Avatar bgColor={"$info400"} size="lg" borderRadius="$full">
           <AvatarFallbackText>{props.name}</AvatarFallbackText>
         </Avatar>
       </View>
       <VStack flex={3}>
-        <Text fontWeight="bold" color={COLORS.text}>
+        {/* <HStack justifyContent="space-between"> */}
+        <Text fontWeight="bold" color={COLORS.tertiary}>
           {props.name}
         </Text>
+        <Text bold size="xs">
+          {props.phoneNumber}
+        </Text>
+        <Text color="gray" size="xs">
+          {props.email}
+        </Text>
+        {/* </HStack> */}
         <Divider />
-        <Text color={"gray"} size="sm">
-          Employee since
+        <Text color={"gray"} size="xs">
+          Employee since {"\n" + props.createdAt.slice(0, 9)}
         </Text>
       </VStack>
       <View flex={1}>

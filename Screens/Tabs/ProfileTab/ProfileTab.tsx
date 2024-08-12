@@ -9,30 +9,46 @@ import {
   SafeAreaView,
 } from "@gluestack-ui/themed";
 import React, { useContext } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
 import ProfileCard from "./components/ProfileCard";
 import { Octicons } from "@expo/vector-icons";
-import { AuthContext } from "../../../Contexts/AuthContext";
+
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import useAuth from "../../../auth/useAuth";
+import useProfile from "../../../hooks/useProfile";
 
 export default function ProfileTab({ navigation }: any) {
-  const { user, setUser } = useContext(AuthContext);
-  const signOut = async () => {
-    try {
-      await GoogleSignin.signOut();
-      setUser(null);
-      console.log("Google sign out");
-    } catch (error) {
-      console.error(error);
-    }
+  const { logOut } = useAuth();
+  const { profile } = useProfile();
+
+  const confirmLogOut = () => {
+    Alert.alert("Log Out", "Are you sure you want to log out?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Log Out",
+        onPress: () => {
+          handleLogOut();
+        },
+      },
+    ]);
+  };
+
+  const handleLogOut = () => {
+    logOut();
   };
 
   return (
     <SafeAreaView flex={1}>
       <VStack style={styles.container}>
-        <TouchableOpacity style={styles.logOutButton} onPress={() => signOut()}>
+        <TouchableOpacity
+          style={styles.logOutButton}
+          onPress={() => confirmLogOut()}
+        >
           <Octicons name="sign-out" size={PERCENT[7]} color="white" />
         </TouchableOpacity>
 
@@ -41,11 +57,11 @@ export default function ProfileTab({ navigation }: any) {
         <View style={styles.profileArea}>
           <Avatar style={styles.avatar} bgColor="$info400" size="2xl">
             <AvatarFallbackText style={styles.textShadow}>
-              {user.user.name}
+              {profile?.name}
             </AvatarFallbackText>
             <AvatarImage
               source={{
-                uri: user.user.photo,
+                uri: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
               }}
               alt="user photo"
             />
@@ -59,8 +75,8 @@ export default function ProfileTab({ navigation }: any) {
             </TouchableOpacity>
           </Avatar>
 
-          <Text style={styles.name}>{user.user.name}</Text>
-          <Text style={styles.email}>{user.user.email}</Text>
+          <Text style={styles.name}>{profile?.name}</Text>
+          <Text style={styles.email}>{profile?.email}</Text>
 
           <ScrollView w={"100%"}>
             <ProfileCard
@@ -96,12 +112,12 @@ export default function ProfileTab({ navigation }: any) {
               onPress={() => navigation.navigate("FAQ")}
             />
             <ProfileCard
-              title={"Sign Out"}
+              title={"Log Out"}
               // semiTitle={"Frequently asked questions"}
               iconName={"door-open"}
               iconColor={"#8b5cf6"}
               iconBgColor={"#ddd6fe"}
-              onPress={() => signOut()}
+              onPress={() => confirmLogOut()}
             />
           </ScrollView>
         </View>

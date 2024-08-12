@@ -25,13 +25,20 @@ import FAQ from "./Screens/Tabs/ProfileTab/FAQ";
 import PasswordChange from "./Screens/Tabs/ProfileTab/PasswordChange";
 import { COLORS } from "./Constants/Constants";
 import AuthContext from "./auth/context";
+import ProfileContext from "./Contexts/ProfileContext";
 import authStorage from "./auth/storage";
+import UnverifiedAccountHome from "./Screens/Auth/UnverifiedAccountHome/UnverifiedAccountHome";
+import VerifyAccount from "./Screens/Auth/VerifyAccount/VerifyAccount";
+import EmployeeListContext from "./Contexts/EmployeeListContext";
+import AddEmployee from "./Screens/Add Employee/AddEmployee";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [isReady, setIsReady] = useState(false);
+  const [employeesList, setEmployeesList] = useState(null);
 
   const restoreUser = async () => {
     const user = await authStorage.getUser();
@@ -49,48 +56,89 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      <NavigationContainer>
-        <GluestackUIProvider config={config}>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <View display="flex" flex={1} bg="transparent">
-              <StatusBar
-                barStyle="light-content"
-                backgroundColor={COLORS.tertiary}
-                translucent={false}
-              />
-              <Stack.Navigator screenOptions={{ headerShown: false }}>
-                {user ? (
-                  <Stack.Group>
-                    <Stack.Screen name="home" component={TabNavigator} />
-                    <Stack.Screen
-                      name="Personal Detail"
-                      component={PersonalDetail}
-                    />
-                    <Stack.Screen
-                      name="Notifications"
-                      component={Notifications}
-                    />
-                    <Stack.Screen
-                      name="PasswordChange"
-                      component={PasswordChange}
-                    />
-                    <Stack.Screen name="FAQ" component={FAQ} />
-                  </Stack.Group>
-                ) : (
-                  <Stack.Group>
-                    <Stack.Screen name="Login" component={Login} />
-                    <Stack.Screen name="Signup" component={Signup} />
-                  </Stack.Group>
-                )}
-              </Stack.Navigator>
+      <ProfileContext.Provider value={{ profile, setProfile }}>
+        <EmployeeListContext.Provider
+          value={{ employeesList, setEmployeesList }}
+        >
+          <NavigationContainer>
+            <GluestackUIProvider config={config}>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <View display="flex" flex={1} bg="transparent">
+                  <StatusBar
+                    barStyle="light-content"
+                    backgroundColor={COLORS.tertiary}
+                    translucent={false}
+                  />
+                  <Stack.Navigator screenOptions={{ headerShown: false }}>
+                    {user ? (
+                      user.isVerified && user.pumpId ? (
+                        <Stack.Group>
+                          <Stack.Screen name="home" component={TabNavigator} />
+                          <Stack.Screen
+                            options={{ animation: "slide_from_right" }}
+                            name="Personal Detail"
+                            component={PersonalDetail}
+                          />
+                          <Stack.Screen
+                            options={{ animation: "slide_from_right" }}
+                            name="Notifications"
+                            component={Notifications}
+                          />
+                          <Stack.Screen
+                            options={{ animation: "slide_from_right" }}
+                            name="PasswordChange"
+                            component={PasswordChange}
+                          />
+                          <Stack.Screen
+                            options={{ animation: "slide_from_right" }}
+                            name="FAQ"
+                            component={FAQ}
+                          />
+                          <Stack.Screen
+                            options={{ animation: "slide_from_bottom" }}
+                            name="AddEmployee"
+                            component={AddEmployee}
+                          />
+                        </Stack.Group>
+                      ) : (
+                        <Stack.Group>
+                          <Stack.Screen
+                            options={{ animation: "slide_from_left" }}
+                            name="UnverifiedAccountHome"
+                            component={UnverifiedAccountHome}
+                          />
+                          <Stack.Screen
+                            options={{ animation: "slide_from_right" }}
+                            name="VerifyAccount"
+                            component={VerifyAccount}
+                          />
+                        </Stack.Group>
+                      )
+                    ) : (
+                      <Stack.Group>
+                        <Stack.Screen
+                          options={{ animation: "slide_from_left" }}
+                          name="Login"
+                          component={Login}
+                        />
+                        <Stack.Screen
+                          options={{ animation: "slide_from_right" }}
+                          name="Signup"
+                          component={Signup}
+                        />
+                      </Stack.Group>
+                    )}
+                  </Stack.Navigator>
 
-              {/* <TabNavigator /> */}
-              {/* <Login /> */}
-              {/* <Signup /> */}
-            </View>
-          </GestureHandlerRootView>
-        </GluestackUIProvider>
-      </NavigationContainer>
+                  {/* <TabNavigator /> */}
+                  {/* <Login /> */}
+                  {/* <Signup /> */}
+                </View>
+              </GestureHandlerRootView>
+            </GluestackUIProvider>
+          </NavigationContainer>
+        </EmployeeListContext.Provider>
+      </ProfileContext.Provider>
     </AuthContext.Provider>
   );
 }

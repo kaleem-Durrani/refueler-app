@@ -12,6 +12,8 @@ export default useApi = (apiFunc) => {
     setData(null);
     setIsError(false);
     setError(null);
+    setErronStatus(null);
+    setResponseProblem(null);
 
     setLoading(true);
     const response = await apiFunc(...args);
@@ -23,7 +25,7 @@ export default useApi = (apiFunc) => {
       setIsError(true);
       setErronStatus(response.status);
       setResponseProblem(response.problem);
-      // console.log(response.problem);
+      // console.log(response);
       setError(response.data.error);
       setData(null);
       return;

@@ -111,6 +111,7 @@ import HistoryTab from "../Screens/Tabs/HistoryTab/HistoryTab";
 import ProfileTab from "../Screens/Tabs/ProfileTab/ProfileTab";
 import { COLORS, PERCENT, SIZES } from "../Constants/Constants";
 import TopTabNavigator from "./TopTabNavigator";
+import EmployeeListContext from "../Contexts/EmployeeListContext";
 
 const Tab = createBottomTabNavigator();
 
@@ -150,7 +151,6 @@ export default function TabNavigator() {
         tabBarHideOnKeyboard: true,
         tabBarStyle: [
           {
-
             backgroundColor: "#f0f9ff",
             display: isKeyboardOpen ? "none" : "flex",
 
@@ -167,7 +167,6 @@ export default function TabNavigator() {
 
           let iconColor = focused ? COLORS.primary : "gray";
           let circleColor = focused ? COLORS.tertiary : "transparent";
-
 
           if (route.name === "Home") {
             iconName = "home";
@@ -216,7 +215,6 @@ export default function TabNavigator() {
         },
       })}
     >
-
       <Tab.Screen
         name="Home"
         component={HomeTab}
@@ -247,6 +245,7 @@ export default function TabNavigator() {
           },
         })}
       />
+
       <Tab.Screen
         name="Profile"
         component={ProfileTab}
@@ -262,7 +261,6 @@ export default function TabNavigator() {
           },
         })}
       />
-
     </Tab.Navigator>
   );
 }

@@ -18,6 +18,8 @@ export const SIZES = {
   // Add more sizes as needed
 };
 
+export const HEIGHT = height;
+
 export const PERCENT = {
   1: width * 0.01,
   2: width * 0.02,

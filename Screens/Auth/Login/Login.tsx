@@ -14,7 +14,6 @@ import {
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
-import { AuthContext } from "../../../Contexts/AuthContext";
 
 import authApi from "../../../api/auth";
 import useAuth from "../../../auth/useAuth";
@@ -32,7 +31,7 @@ import useAuth from "../../../auth/useAuth";
 // });
 
 export default function Login({ navigation }: any) {
-  const { user, setUser } = useContext(AuthContext);
+  // const { user, setUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
 
   const auth = useAuth();
@@ -98,12 +97,12 @@ export default function Login({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.backArrow}
         onPress={() => navigation.goBack()}
       >
         <MaterialIcons name="arrow-back-ios" size={22} color="white" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Text style={styles.text}>Login</Text>
 
       <View py={"$4"} style={styles.loginArea}>
@@ -147,31 +146,39 @@ export default function Login({ navigation }: any) {
             </TouchableOpacity>
           </InputSlot>
         </Input>
-        <TouchableOpacity>
-          <Text style={styles.linkText}>Forgot your password?</Text>
+        <TouchableOpacity
+          style={{
+            marginTop: 20,
+            alignItems: "flex-end",
+          }}
+        >
+          <Text style={styles.linkText}>Forgot your password ?</Text>
         </TouchableOpacity>
         {/* sign in button */}
         <Button
-          bg="#0ea5e9"
           mt={"$4"}
           w={"$full"}
           onPress={() => handleLogin()}
+          isDisabled={loading}
+          borderRadius={20}
         >
           <ButtonText>Sign in</ButtonText>
         </Button>
-        <HStack mt={"$3"} alignItems="center" justifyContent="center">
+
+        {/* <HStack mt={"$3"} alignItems="center" justifyContent="center">
           <Divider w={PERCENT[20]} />
           <Text marginHorizontal={PERCENT[5]}>Or sign in with</Text>
           <Divider w={PERCENT[20]} />
-        </HStack>
-        Login with google
+        </HStack> */}
+
+        {/* Login with google */}
         {/* <GoogleSigninButton
           style={{ width: "100%" }}
           onPress={_signIn}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
         /> */}
-        <HStack my={"$4"}>
+        <HStack my={"$8"} justifyContent="center">
           <Text>Don't have an account ? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
             <Text style={styles.linkText}>Sign up</Text>

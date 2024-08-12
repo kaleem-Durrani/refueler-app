@@ -1,5 +1,5 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import { StyleSheet, TouchableOpacity, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
 import {
   VStack,
   SafeAreaView,
@@ -14,6 +14,8 @@ import {
 import { PERCENT } from "../../../Constants/Constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../Constants/Constants";
+import employeeApis from "../../../api/employee";
+import useApi from "../../../hooks/useApi";
 
 export default function PasswordChange({ navigation }: any) {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,10 +23,58 @@ export default function PasswordChange({ navigation }: any) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleChangePassword = () => {
-    // Add logic for changing password here
-    console.log("Password changed!");
+  const [loading, setLoading] = useState(false);
+
+  const changePasswordApi = useApi(employeeApis.changePassword);
+
+  const handleChangePassword = async () => {
+    if (
+      currentPassword.trim() === "" ||
+      newPassword.trim() === "" ||
+      confirmPassword.trim() === ""
+    ) {
+      Alert.alert("Invalid Inputs", "Please fill in all fields");
+      return;
+    }
+
+    // make sure the legnth of all fields is at least 6 characters after trimming
+    if (
+      currentPassword.trim().length < 6 ||
+      newPassword.trim().length < 6 ||
+      confirmPassword.trim().length < 6
+    ) {
+      Alert.alert(
+        "Invalid Inputs",
+        "Passwords must be at least 6 characters long"
+      );
+      return;
+    }
+
+    // make sure new password and confirm password match
+
+    if (newPassword.trim() !== confirmPassword.trim()) {
+      Alert.alert("Invalid Inputs", "Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+    changePasswordApi.request(currentPassword, newPassword, confirmPassword);
+    setLoading(false);
   };
+
+  useEffect(() => {
+    if (changePasswordApi.data) {
+      Alert.alert("Success", `${changePasswordApi.data.message}`);
+      return navigation.goBack();
+    }
+
+    if (changePasswordApi.error) {
+      Alert.alert(
+        `${changePasswordApi.responseProblem} ${changePasswordApi.errorStatus}`,
+        `${changePasswordApi.error}`
+      );
+    }
+  }, [changePasswordApi.data, changePasswordApi.error]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -32,7 +82,7 @@ export default function PasswordChange({ navigation }: any) {
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       >
-        <MaterialIcons name="arrow-back-ios" size={22} color="white" />
+        <MaterialIcons name="arrow-back-ios" size={PERCENT[9]} color="white" />
       </TouchableOpacity>
       <Text style={styles.title}>Change Password</Text>
       <VStack style={styles.container}>
@@ -128,6 +178,7 @@ export default function PasswordChange({ navigation }: any) {
           w={"$full"}
           style={styles.changeButton}
           onPress={handleChangePassword}
+          isDisabled={changePasswordApi.loading}
         >
           <ButtonText style={styles.buttonText}>Change Password</ButtonText>
         </Button>
@@ -145,13 +196,13 @@ const styles = StyleSheet.create({
   container: {
     padding: PERCENT[6],
     backgroundColor: COLORS.primary,
-    marginTop: PERCENT[10],
+    marginTop: PERCENT[6],
     borderRadius: PERCENT[6],
     elevation: 10,
   },
   backButton: {
     position: "absolute",
-    top: PERCENT[8],
+    top: PERCENT[4],
     left: PERCENT[4],
     padding: "2%",
     alignItems: "center",

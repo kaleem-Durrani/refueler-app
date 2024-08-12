@@ -11,11 +11,14 @@ import {
   Text,
 } from "@gluestack-ui/themed";
 import { MaterialIcons } from "@expo/vector-icons";
-import { AuthContext } from "../../../Contexts/AuthContext";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
+import useAuth from "../../../auth/useAuth";
+import PersonalDetailCard from "./components/PersonalDetailCard";
+import useProfile from "../../../hooks/useProfile";
 
 export default function PersonalDetail({ navigation }: any) {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
+  const { profile } = useProfile();
 
   return (
     <View style={styles.container}>
@@ -24,44 +27,25 @@ export default function PersonalDetail({ navigation }: any) {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <MaterialIcons name="arrow-back-ios" size={22} color="white" />
+          <MaterialIcons
+            name="arrow-back-ios"
+            size={PERCENT[9]}
+            color="white"
+          />
         </TouchableOpacity>
         <Text style={styles.title}>Personal Details</Text>
       </HStack>
-      <VStack style={styles.formContainer}>
-        <Text style={styles.label}>Name</Text>
-        <Input variant="rounded" size="lg" mb={"$6"}>
-          <InputSlot ml={"$3"}>
-            <MaterialIcons name="person" size={24} color={COLORS.tertiary} />
-          </InputSlot>
-          <InputField value={user.name} placeholder="Enter Name" />
-        </Input>
+      {/* <VStack style={styles.formContainer}></VStack> */}
 
-        <Text style={styles.label}>Email</Text>
-        <Input variant="rounded" size="lg" mb={"$6"}>
-          <InputSlot ml={"$3"}>
-            <MaterialIcons name="email" size={24} color={COLORS.tertiary} />
-          </InputSlot>
-          <InputField value={user.email} placeholder="Enter Email" />
-        </Input>
-
-        <Text style={styles.label}>Phone Number</Text>
-        <Input variant="rounded" size="lg">
-          <InputSlot ml={"$3"}>
-            <MaterialIcons name="phone" size={24} color={COLORS.tertiary} />
-          </InputSlot>
-          <InputField value={user.phone} placeholder="Enter Phone Number" />
-        </Input>
-
-        <Button
-          bg={COLORS.tertiary}
-          mt={"$4"}
-          w={"$full"}
-          borderRadius={10}
-          onPress={() => alert("Details updated successfully")}
-        >
-          <ButtonText>Update Details</ButtonText>
-        </Button>
+      <VStack mt={"$4"}>
+        <PersonalDetailCard title="Name" info={profile?.name} />
+        <PersonalDetailCard title="Email" info={profile?.email} />
+        <PersonalDetailCard title="Phone Number" info={profile?.phoneNumber} />
+        <PersonalDetailCard title="Account Type" info={profile?.type} />
+        <PersonalDetailCard
+          title="Member Since"
+          info={profile?.createdAt.slice(0, 10)}
+        />
       </VStack>
     </View>
   );
@@ -75,7 +59,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: "absolute",
-    top: PERCENT[6],
+    top: PERCENT[2],
     left: PERCENT[2],
     padding: "2%",
     alignItems: "center",

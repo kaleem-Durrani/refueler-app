@@ -10,9 +10,15 @@ import {
   HStack,
   Divider,
   ScrollView,
+  RadioGroup,
+  RadioIndicator,
+  RadioIcon,
+  Radio,
+  RadioLabel,
+  CircleIcon,
 } from "@gluestack-ui/themed";
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
 import { MaterialIcons, FontAwesome6 } from "@expo/vector-icons";
 import authApi from "../../../api/auth";
@@ -29,9 +35,10 @@ export default function Signup({ navigation }: any) {
 
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSignUp = async () => {
     // make sure all 6 trimmed fields are not empty
 
+    console.log(name, email, password, phoneNumber, confirmPassword, type);
     if (
       name.trim() === "" ||
       email.trim() === "" ||
@@ -40,7 +47,7 @@ export default function Signup({ navigation }: any) {
       phoneNumber.trim() === "" ||
       type.trim() === ""
     ) {
-      alert("Please fill in all fields");
+      Alert.alert("Invalid Input", "Please fill in all the required fields");
       return;
     }
 
@@ -79,12 +86,11 @@ export default function Signup({ navigation }: any) {
     setLoading(false);
 
     if (!result.ok) {
-      alert(`${result.problem} ${result.status}\n
-        ${result.data.error}`);
+      Alert.alert(`${result.problem} ${result.status}`, `${result.data.error}`);
       return;
     }
 
-    alert(`${result.data.message}`);
+    Alert.alert("Request Successful", `${result.data.message}`);
     navigation.goBack();
   };
 
@@ -111,31 +117,39 @@ export default function Signup({ navigation }: any) {
         >
           {/* Name input */}
 
-          <Text mt={"$3"} style={styles.inputLogo}>
+          <Text mt={"$6"} style={styles.inputLogo}>
             User name
           </Text>
           <Input variant="rounded" size="lg" isDisabled={false}>
             <InputSlot ml={"$3"}>
               <MaterialIcons name="person" size={20} color={COLORS.tertiary} />
             </InputSlot>
-            <InputField placeholder="Enter your Name" />
+            <InputField
+              placeholder="Enter your Name"
+              value={name}
+              onChangeText={setName}
+            />
           </Input>
 
           {/* email input */}
 
-          <Text mt={"$3"} style={styles.inputLogo}>
+          <Text mt={"$4"} style={styles.inputLogo}>
             Email
           </Text>
           <Input variant="rounded" size="lg" isDisabled={false}>
             <InputSlot ml={"$3"}>
               <MaterialIcons name="email" size={20} color={COLORS.tertiary} />
             </InputSlot>
-            <InputField placeholder="Enter your Email" />
+            <InputField
+              placeholder="Enter your Email"
+              value={email}
+              onChangeText={setEmail}
+            />
           </Input>
 
           {/* password input */}
 
-          <Text mt={"$3"} style={styles.inputLogo}>
+          <Text mt={"$4"} style={styles.inputLogo}>
             Password
           </Text>
           <Input variant="rounded" size="lg" isDisabled={false}>
@@ -149,6 +163,8 @@ export default function Signup({ navigation }: any) {
             <InputField
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
+              value={password}
+              onChangeText={setPassword}
             />
             <InputSlot mr={"$2"}>
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
@@ -163,7 +179,7 @@ export default function Signup({ navigation }: any) {
 
           {/* Confirm Pasword */}
 
-          <Text mt={"$3"} style={styles.inputLogo}>
+          <Text mt={"$4"} style={styles.inputLogo}>
             Confirm password
           </Text>
           <Input variant="rounded" size="lg" isDisabled={false}>
@@ -177,6 +193,8 @@ export default function Signup({ navigation }: any) {
             <InputField
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
             />
             <InputSlot mr={"$2"}>
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
@@ -191,38 +209,58 @@ export default function Signup({ navigation }: any) {
 
           {/* phone Number */}
 
-          <Text mt={"$3"} style={styles.inputLogo}>
+          <Text mt={"$4"} style={styles.inputLogo}>
             Phone Number
           </Text>
           <Input variant="rounded" size="lg" isDisabled={false}>
             <InputSlot ml={"$3"}>
               <MaterialIcons name="person" size={20} color={COLORS.tertiary} />
             </InputSlot>
-            <InputField placeholder="Enter your Phone Number" />
+            <InputField
+              placeholder="Enter your Phone Number"
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+            />
           </Input>
 
           {/* Type */}
 
-          <Text mt={"$3"} style={styles.inputLogo}>
+          <Text mt={"$4"} style={styles.inputLogo}>
             Type
           </Text>
-          <Input variant="rounded" size="lg" isDisabled={false}>
-            <InputSlot ml={"$3"}>
-              <MaterialIcons name="person" size={20} color={COLORS.tertiary} />
-            </InputSlot>
-            <InputField placeholder="Manager or Refueler" />
-          </Input>
+          <RadioGroup
+            gap={"$16"}
+            flexDirection="row"
+            justifyContent="space-between"
+            onChange={setType}
+          >
+            <Radio value="manager" size="lg">
+              <RadioIndicator mr="$2">
+                <RadioIcon as={CircleIcon} />
+              </RadioIndicator>
+              <RadioLabel>Manager</RadioLabel>
+            </Radio>
+            <Radio value="refueler" size="lg">
+              <RadioIndicator mr="$2">
+                <RadioIcon as={CircleIcon} />
+              </RadioIndicator>
+              <RadioLabel>Refueler</RadioLabel>
+            </Radio>
+          </RadioGroup>
+
+          {/* signup button */}
 
           <Button
-            bg="#0ea5e9"
-            mt={"$4"}
+            mt={"$8"}
             w={"$full"}
-            onPress={() => navigation.goBack()}
+            borderRadius={20}
+            isDisabled={loading}
+            onPress={() => handleSignUp()}
           >
             <ButtonText>Sign up</ButtonText>
           </Button>
 
-          <HStack mt={"$3"} alignItems="center">
+          {/* <HStack mt={"$3"} alignItems="center">
             <Divider />
             <Text>Or sign up with</Text>
             <Divider />
@@ -253,9 +291,9 @@ export default function Signup({ navigation }: any) {
               <MaterialIcons name="facebook" size={24} color="blue" />
               <Text>Facebook</Text>
             </HStack>
-          </HStack>
+          </HStack> */}
 
-          <HStack my={"$4"}>
+          <HStack my={"$8"}>
             <Text>Already have an account ? </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Text style={styles.linkText}>Sign in</Text>
