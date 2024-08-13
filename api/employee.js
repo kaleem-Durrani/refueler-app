@@ -36,6 +36,8 @@ const changePassword = (currentPassword, newPassword, confirmPassword) =>
 const addEmployeeToPump = (employeeEmail) =>
   client.post("/pump/addEmployeeToPumpByManager", { employeeEmail });
 
+const uploadImage = (image) => client.post("/employee/image", { image });
+
 export default {
   getProfile,
   getRefuelerTransactionHistory,
@@ -44,4 +46,5 @@ export default {
   getEmployeeTransactionHistory,
   changePassword,
   addEmployeeToPump,
+  uploadImage,
 };
