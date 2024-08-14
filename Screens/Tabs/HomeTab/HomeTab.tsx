@@ -5,7 +5,6 @@ import {
   ButtonText,
   Image,
   Box,
-  Heading,
   FlatList,
   Divider,
   HStack,
@@ -13,14 +12,8 @@ import {
   Spinner,
   SafeAreaView,
 } from "@gluestack-ui/themed";
-import React, {
-  useCallback,
-  useRef,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
-import { Alert, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useCallback, useRef, useState, useEffect } from "react";
+import { Alert, Platform, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLORS, HEIGHT, PERCENT } from "../../../Constants/Constants";
 import {
@@ -40,16 +33,146 @@ import useApi from "../../../hooks/useApi";
 import employeeApis from "../../../api/employee";
 import { FontAwesome } from "@expo/vector-icons";
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
+import Constants from "expo-constants";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+
+async function sendPushNotification(expoPushToken: string) {
+  const message = {
+    to: expoPushToken,
+    sound: "default",
+    title: "Original Title",
+    body: "And here is the body!",
+    data: { someData: "goes here" },
+  };
+
+  await fetch("https://exp.host/--/api/v2/push/send", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Accept-encoding": "gzip, deflate",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(message),
+  });
+}
+
+function handleRegistrationError(errorMessage: string) {
+  alert(errorMessage);
+  throw new Error(errorMessage);
+}
+
+async function registerForPushNotificationsAsync() {
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      handleRegistrationError(
+        "Permission not granted to get push token for push notification!"
+      );
+      return;
+    }
+    const projectId =
+      Constants?.expoConfig?.extra?.eas?.projectId ??
+      Constants?.easConfig?.projectId;
+    if (!projectId) {
+      handleRegistrationError("Project ID not found");
+    }
+    try {
+      const pushTokenString = (
+        await Notifications.getExpoPushTokenAsync({
+          projectId,
+        })
+      ).data;
+      console.log(pushTokenString);
+      return pushTokenString;
+    } catch (e: unknown) {
+      handleRegistrationError(`${e}`);
+    }
+  } else {
+    handleRegistrationError("Must use physical device for push notifications");
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 export default function HomeTab() {
   const { user } = useAuth();
-
   const { profile, fetchProfile, refreshProfile } = useProfile();
-
   const createTransactionApi = useApi(employeeApis.createTransaction);
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState<
+    Notifications.Notification | undefined
+  >(undefined);
+  const notificationListener = useRef<Notifications.Subscription>();
+  const responseListener = useRef<Notifications.Subscription>();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync()
+      .then((token) => setExpoPushToken(token ?? ""))
+      .catch((error: any) => setExpoPushToken(`${error}`));
+
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
+
+    return () => {
+      notificationListener.current &&
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+      responseListener.current &&
+        Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  const updatePushTokenApi = useApi(employeeApis.updatePushToken);
 
   useEffect(() => {
     fetchProfile();
   }, []);
+
+  useEffect(() => {
+    const updatePushToken = async () => {
+     await updatePushTokenApi.request(expoPushToken);
+    };
+    if (expoPushToken) {
+      updatePushToken();
+    }
+  }, [expoPushToken]);
 
   const camera = useRef<Camera>(null);
   const isFocused = useIsFocused();
@@ -58,7 +181,6 @@ export default function HomeTab() {
   const appState = useAppState();
   const isActive = isFocused && appState === "active";
   const { hasPermission, requestPermission } = useCameraPermission();
-  const [permission, setPermission] = useState(hasPermission);
   const [permissionRequested, setPermissionRequested] = useState(false);
   const device = useCameraDevice("back");
 

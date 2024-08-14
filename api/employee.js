@@ -38,6 +38,9 @@ const addEmployeeToPump = (employeeEmail) =>
 
 const uploadImage = (image) => client.post("/employee/image", { image });
 
+const updatePushToken = (pushToken) =>
+  client.post("/employee/updatePushToken", { pushToken });
+
 export default {
   getProfile,
   getRefuelerTransactionHistory,
@@ -47,4 +50,5 @@ export default {
   changePassword,
   addEmployeeToPump,
   uploadImage,
+  updatePushToken,
 };
