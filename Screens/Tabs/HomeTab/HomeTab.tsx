@@ -49,15 +49,17 @@ export default function HomeTab() {
 
   useEffect(() => {
     fetchProfile();
-    // console.log(profile);
   }, []);
 
   const camera = useRef<Camera>(null);
   const isFocused = useIsFocused();
   const [isSideBarOn, setIsSideBarOn] = useState(false);
+
   const appState = useAppState();
   const isActive = isFocused && appState === "active";
   const { hasPermission, requestPermission } = useCameraPermission();
+  const [permission, setPermission] = useState(hasPermission);
+  const [permissionRequested, setPermissionRequested] = useState(false);
   const device = useCameraDevice("back");
 
   const data = [
@@ -87,9 +89,11 @@ export default function HomeTab() {
     },
   });
 
-  if (!hasPermission) {
-    requestPermission();
-  }
+  useEffect(() => {
+    if (!hasPermission && !permissionRequested) {
+      requestPermission().then(() => setPermissionRequested(true));
+    }
+  }, [hasPermission, permissionRequested, requestPermission]);
 
   const handleTransaction = async () => {
     const transaction = JSON.parse(scanned);
@@ -120,12 +124,25 @@ export default function HomeTab() {
     }
   }, [createTransactionApi.data, createTransactionApi.error]);
 
-  if (device == null)
+  if (!profile || !device) {
     return (
-      <View>
-        <Text>No Camera Found!</Text>
+      <View flex={1} justifyContent="center" alignItems="center">
+        <Spinner size="large" />
+        <Text>Loading...</Text>
       </View>
     );
+  }
+
+  if (!hasPermission) {
+    return (
+      <View flex={1} justifyContent="center" alignItems="center">
+        <Text>Camera Permission</Text>
+        <Button onPress={requestPermission}>
+          <ButtonText>Request Permission</ButtonText>
+        </Button>
+      </View>
+    );
+  }
 
   if (scanned) {
     return (
@@ -156,7 +173,6 @@ export default function HomeTab() {
         <Button
           action="positive"
           mx={"$16"}
-          // variant="outline"
           isDisabled={createTransactionApi.loading}
           onPress={() => handleTransaction()}
         >
@@ -167,7 +183,6 @@ export default function HomeTab() {
           mt={"$6"}
           action="negative"
           mx={"$16"}
-          // variant="outline"
           isDisabled={createTransactionApi.loading}
           onPress={() => setScanned("")}
         >
@@ -175,7 +190,7 @@ export default function HomeTab() {
         </Button>
       </View>
     );
-  } else
+  } else {
     return (
       <SafeAreaView style={{ flex: 1, paddingTop: HEIGHT * 0.01 }}>
         <Button
@@ -295,8 +310,8 @@ export default function HomeTab() {
         </GestureDetector>
       </SafeAreaView>
     );
+  }
 }
-
 const styles = StyleSheet.create({
   sidebarOn: { flex: 1, alignItems: "center", marginTop: PERCENT[25] },
   sidebarOff: { display: "none" },
