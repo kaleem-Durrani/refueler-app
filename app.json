@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo-app",
-    "slug": "expo-app",
+    "name": "Refueler App",
+    "slug": "Refueler-App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.expoapp",
+      "bundleIdentifier": "com.zegoop.refueler",
       "infoPlist": {
         "NSCameraUsageDescription": "PakFuel Refueler needs access to your Camera."
       }
@@ -26,14 +26,12 @@
       },
       "useNextBuildSchema": true,
       "versionCode": 1,
-      "config": {
-        "keystorePath": "./android/your-keystore-name.keystore",
-        "keystoreAlias": "your-alias-name",
-        "keystorePassword": "123456",
-        "keyPassword": "123456"
-      },
-      "package": "com.anonymous.expoapp",
-      "permissions": ["android.permission.CAMERA"]
+      "package": "com.zegoop.refueler",
+      "googleServicesFile": "google-services.json",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -52,12 +50,6 @@
         }
       ],
       [
-        "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "com.googleusercontent.apps.257394933258-0k07misquhqt5fkmtofa12b8cb86e4ob"
-        }
-      ],
-      [
         "react-native-vision-camera",
         {
           "cameraPermissionText": "PakFuel Refueler needs access to your Camera.",
@@ -67,8 +59,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "19abdbdc-c5e4-4732-b0e6-d46942dda730"
+        "projectId": "ce5754fd-6939-4386-8100-0307d216fdce"
       }
-    }
+    },
+    "owner": "zegoop"
   }
 }

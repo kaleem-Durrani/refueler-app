@@ -68,7 +68,6 @@ export default function Login({ navigation }: any) {
         `);
       return;
     }
-
     auth.login(result.data.token);
   };
 
