@@ -27,7 +27,7 @@
       "useNextBuildSchema": true,
       "versionCode": 1,
       "package": "com.zegoop.refueler",
-      "googleServicesFile": "google-services.json",
+      "googleServicesFile": "@env:GOOGLE_SERVICES_JSON",
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"

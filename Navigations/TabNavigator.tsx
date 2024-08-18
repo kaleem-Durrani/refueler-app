@@ -1,107 +1,5 @@
-// import React from "react";
-// import { View, Text, HStack } from "@gluestack-ui/themed";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import { Ionicons } from "@expo/vector-icons";
-
-// import HomeTab from "../Screens/Tabs/HomeTab/HomeTab";
-// import HistoryTab from "../Screens/Tabs/HistoryTab/HistoryTab";
-// import ProfileTab from "../Screens/Tabs/ProfileTab/ProfileTab";
-// import { COLORS, PERCENT, SIZES } from "../Constants/Constants";
-// import TopTabNavigator from "./TopTabNavigator";
-
-// const Tab = createBottomTabNavigator();
-
-// export default function TabNavigator() {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={({ route }) => ({
-//         tabBarActiveTintColor: COLORS.primary,
-//         tabBarInactiveTintColor: "gray",
-//         tabBarShowLabel: false,
-//         headerShown: false,
-//         tabBarHideOnKeyboard: true,
-//         tabBarStyle: [
-//           {
-//             // color: "transparent",
-//             backgroundColor: "#f0f9ff",
-//             display: "flex",
-//             borderRadius: 100,
-//             marginHorizontal: PERCENT[5],
-//             marginVertical: PERCENT[2],
-//             elevation: 10,
-//             height: PERCENT[14],
-//           },
-//           null,
-//         ],
-//         tabBarIcon: ({ color, size, focused }) => {
-//           let iconName;
-//           let iconColor = focused ? COLORS.white : "gray";
-//           let circleColor = focused ? "#38bdf8" : "transparent";
-
-//           if (route.name === "Home") {
-//             iconName = "home";
-//           } else if (route.name === "History") {
-//             iconName = "time";
-//           } else if (route.name === "Profile") {
-//             iconName = "person";
-//           }
-
-//           // Return the Ionicons component with the appropriate icon name, color, and size
-//           return focused ? (
-//             <HStack
-//               alignItems="center"
-//               w={"80%"}
-//               h={"$12"}
-//               borderRadius="$full"
-//               backgroundColor={circleColor}
-//               justifyContent="space-evenly"
-//             >
-//               <Ionicons name={iconName} size={size} color={iconColor} />
-//               <Text fontWeight="bold" color="white" mr={"$1"}>
-//                 {route.name}
-//               </Text>
-//             </HStack>
-//           ) : (
-//             <View alignContent="center">
-//               <View
-//                 w={"$12"}
-//                 h={"$12"}
-//                 borderRadius="$full"
-//                 backgroundColor={circleColor}
-//                 justifyContent="center"
-//                 alignItems="center"
-//               >
-//                 <Ionicons name={iconName} size={size} color={iconColor} />
-//               </View>
-//             </View>
-//           );
-//         },
-//       })}
-//     >
-//       <Tab.Screen name="Home" component={HomeTab} />
-//       <Tab.Screen name="History" component={TopTabNavigator} />
-//       <Tab.Screen name="Profile" component={ProfileTab} />
-//     </Tab.Navigator>
-//   );
-// }
-
-// {
-//   /* <View alignContent="center">
-//               <View
-//                 w={"$12"}
-//                 h={"$12"}
-//                 borderRadius="$full"
-//                 backgroundColor={circleColor}
-//                 justifyContent="center"
-//                 alignItems="center"
-//               >
-//                 <Ionicons name={iconName} size={size} color={iconColor} />
-//               </View>
-//             </View> */
-// }
-
 import React, { useEffect, useState } from "react";
-import { View, Text, HStack } from "@gluestack-ui/themed";
+import { View, HStack } from "@gluestack-ui/themed";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { Animated, Keyboard } from "react-native";
@@ -109,9 +7,10 @@ import { Animated, Keyboard } from "react-native";
 import HomeTab from "../Screens/Tabs/HomeTab/HomeTab";
 import HistoryTab from "../Screens/Tabs/HistoryTab/HistoryTab";
 import ProfileTab from "../Screens/Tabs/ProfileTab/ProfileTab";
+import LoyaltyProgramTab from "../Screens/Tabs/LoyaltyTab/LoyaltyProgramTab";
 import { COLORS, PERCENT, SIZES } from "../Constants/Constants";
 import TopTabNavigator from "./TopTabNavigator";
-import EmployeeListContext from "../Contexts/EmployeeListContext";
+import useProfile from "../hooks/useProfile";
 
 const Tab = createBottomTabNavigator();
 
@@ -120,6 +19,7 @@ export default function TabNavigator() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [opacity, setOpacity] = useState(new Animated.Value(0));
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const { profile, fetchProfile } = useProfile();
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -139,6 +39,7 @@ export default function TabNavigator() {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
     };
+    fetchProfile();
   }, []);
 
   return (
@@ -174,6 +75,8 @@ export default function TabNavigator() {
             iconName = "time";
           } else if (route.name === "Profile") {
             iconName = "person";
+          } else if (route.name === "Loyalty") {
+            iconName = "cash";
           }
 
           useEffect(() => {
@@ -261,6 +164,24 @@ export default function TabNavigator() {
           },
         })}
       />
+
+      {profile && profile.type === "manager" && (
+        <Tab.Screen
+          name="Loyalty"
+          component={LoyaltyProgramTab}
+          listeners={({ navigation, route }) => ({
+            tabPress: (e) => {
+              if (path !== "Loyalty Program") {
+                e.preventDefault();
+                setIsAnimating(true);
+                setOpacity(new Animated.Value(0));
+                setPath("Loyalty");
+                navigation.navigate("Loyalty");
+              }
+            },
+          })}
+        />
+      )}
     </Tab.Navigator>
   );
 }
