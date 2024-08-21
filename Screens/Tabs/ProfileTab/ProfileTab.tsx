@@ -117,6 +117,14 @@ export default function ProfileTab({ navigation }: any) {
     logOut();
   };
 
+  if (!profile) {
+    return (
+      <View flex={1} justifyContent="center" alignItems="center">
+        <Spinner size="large" />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   return (
     <SafeAreaView flex={1}>
       <VStack style={styles.container}>
