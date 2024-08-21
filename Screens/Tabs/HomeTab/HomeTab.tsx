@@ -167,7 +167,7 @@ export default function HomeTab() {
 
   useEffect(() => {
     const updatePushToken = async () => {
-     await updatePushTokenApi.request(expoPushToken);
+      await updatePushTokenApi.request(expoPushToken);
     };
     if (expoPushToken) {
       updatePushToken();
@@ -381,7 +381,7 @@ export default function HomeTab() {
                 : {}
             }
           >
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.backButton}
               onPress={() => setIsSideBarOn(!isSideBarOn)}
             >
@@ -390,7 +390,7 @@ export default function HomeTab() {
                 size={60}
                 color={COLORS.tertiary}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <SafeAreaView p={"$4"}>
               <Camera
@@ -406,7 +406,7 @@ export default function HomeTab() {
               />
             </SafeAreaView>
 
-            <Box style={isSideBarOn ? styles.sidebarOn : styles.sidebarOff}>
+            {/* <Box style={isSideBarOn ? styles.sidebarOn : styles.sidebarOff}>
               <Text size="md" color={COLORS.primary} bold>
                 Previous Scans
               </Text>
@@ -427,7 +427,7 @@ export default function HomeTab() {
                 keyExtractor={(item) => item.id}
               />
               <Text>{user?.email} NEw User</Text>
-            </Box>
+            </Box> */}
           </View>
         </GestureDetector>
       </SafeAreaView>

@@ -93,6 +93,8 @@ export default function EmployeeManagement({ navigation }: any) {
                 createdAt={employee.createdAt}
                 email={employee.email}
                 phoneNumber={employee.phoneNumber}
+                imageUrl={employee.imageUrl}
+                pumpId={employee.pumpId}
               />
             ))}
         </ScrollView>
