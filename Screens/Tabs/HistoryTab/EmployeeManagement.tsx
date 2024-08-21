@@ -11,6 +11,7 @@ import {
 import React, { useEffect } from "react";
 import EmployeeSwitch from "./components/EmployeeSwitch";
 import useFetchEmployeeList from "../../../hooks/useFetchEmployeeList";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 export default function EmployeeManagement({ navigation }: any) {
   const {

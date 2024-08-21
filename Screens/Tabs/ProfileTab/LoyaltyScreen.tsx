@@ -9,6 +9,7 @@ import {
   Alert,
 } from "react-native";
 import { COLORS, PERCENT } from "../../../Constants/Constants";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 import employeeApis from "../../../api/employee";
 import useApi from "../../../hooks/useApi";
 
