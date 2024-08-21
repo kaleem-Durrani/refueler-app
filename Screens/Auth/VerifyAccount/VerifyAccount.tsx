@@ -13,6 +13,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import useApi from "../../../hooks/useApi";
 import authApis from "../../../api/auth";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 interface OTPScreenProps {
   navigation: any;
@@ -111,6 +112,7 @@ const VerifyAccount: React.FC<OTPScreenProps> = ({ navigation }) => {
           color={COLORS.tertiary}
         />
       </TouchableOpacity>
+      <NetworkStatusBadge />
 
       <Text mb={"$1"} mt={"$20"} size="lg" bold textAlign="center">
         Enter the 6-digit OTP sent to your registered email address.

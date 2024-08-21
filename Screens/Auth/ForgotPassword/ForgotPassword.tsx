@@ -14,7 +14,7 @@ import useApi from "../../../hooks/useApi";
 import MyToast from "../../../components/MyToast";
 import authApis from "../../../api/auth";
 import { useRoute } from "@react-navigation/native";
-
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 const ForgetPassword: React.FC = ({ navigation }: any) => {
   const route = useRoute();
   const [email, setEmail] = useState("");

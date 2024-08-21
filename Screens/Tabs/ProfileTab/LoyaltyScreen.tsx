@@ -11,6 +11,7 @@ import {
 import { COLORS, PERCENT } from "../../../Constants/Constants";
 import employeeApis from "../../../api/employee";
 import useApi from "../../../hooks/useApi";
+
 import useProfile from "../../../hooks/useProfile";
 
 export default function LoyaltyScreen() {
@@ -39,6 +40,7 @@ export default function LoyaltyScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <NetworkStatusBadge />
       <Text style={styles.title}>Loyalty Program</Text>
 
       <View style={styles.formGroup}>

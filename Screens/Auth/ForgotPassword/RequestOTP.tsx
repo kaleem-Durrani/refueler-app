@@ -11,8 +11,7 @@ import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import { COLORS, HEIGHT, PERCENT } from "../../../Constants/Constants";
 import useAuth from "../../../auth/useAuth";
 import { FontAwesome } from "@expo/vector-icons";
-//   import { NetworkStatusBadge } from "../../../components/NetworkBadge";
-import {} from "@gluestack-ui/themed";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 import useApi from "../../../hooks/useApi";
 import MyToast from "../../../components/MyToast";
@@ -117,7 +116,7 @@ const RequestOTP: React.FC<OTPScreenProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* <NetworkStatusBadge /> */}
+      <NetworkStatusBadge />
       <TouchableOpacity
         onPress={() => navigation.goBack()}
         style={{ position: "absolute", top: 20, left: 20 }}

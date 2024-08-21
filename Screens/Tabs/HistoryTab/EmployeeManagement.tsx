@@ -55,6 +55,7 @@ export default function EmployeeManagement({ navigation }: any) {
           mt={"$3"}
           ml={"$4"}
         >
+          <NetworkStatusBadge />
           <ButtonText>Refresh List</ButtonText>
         </Button>
 

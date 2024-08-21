@@ -31,6 +31,7 @@ import useAuth from "../../../auth/useAuth";
 import useProfile from "../../../hooks/useProfile";
 import useApi from "../../../hooks/useApi";
 import employeeApis from "../../../api/employee";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 import { FontAwesome } from "@expo/vector-icons";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -249,6 +250,7 @@ export default function HomeTab() {
   if (!profile || !device) {
     return (
       <View flex={1} justifyContent="center" alignItems="center">
+        <NetworkStatusBadge />
         <Spinner size="large" />
         <Text>Loading...</Text>
       </View>
@@ -258,6 +260,7 @@ export default function HomeTab() {
   if (!hasPermission) {
     return (
       <View flex={1} justifyContent="center" alignItems="center">
+        <NetworkStatusBadge />
         <Text>Camera Permission</Text>
         <Button onPress={requestPermission}>
           <ButtonText>Request Permission</ButtonText>
@@ -269,6 +272,7 @@ export default function HomeTab() {
   if (scanned) {
     return (
       <View>
+        <NetworkStatusBadge />
         <VStack p={"$6"} px={"$16"} gap={"$1"}>
           <HStack justifyContent="space-between">
             <Text bold>Amount: </Text>
@@ -315,6 +319,7 @@ export default function HomeTab() {
   } else {
     return (
       <SafeAreaView style={{ flex: 1, paddingTop: HEIGHT * 0.01 }}>
+        <NetworkStatusBadge />
         <Button
           isDisabled={!profile}
           variant="outline"

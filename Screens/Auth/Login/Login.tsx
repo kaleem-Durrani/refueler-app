@@ -14,6 +14,7 @@ import {
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
 import { MaterialIcons } from "@expo/vector-icons";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 import authApi from "../../../api/auth";
 import useAuth from "../../../auth/useAuth";
@@ -71,6 +72,7 @@ export default function Login({ navigation }: any) {
           justifyContent: "center",
         }}
       >
+        <NetworkStatusBadge />
         <Image
           source={require("../../../assets/images//auth/login.png")}
           alt="login"

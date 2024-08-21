@@ -15,6 +15,7 @@ import { PERCENT } from "../../../Constants/Constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../Constants/Constants";
 import employeeApis from "../../../api/employee";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 import useApi from "../../../hooks/useApi";
 
 export default function PasswordChange({ navigation }: any) {
@@ -78,6 +79,7 @@ export default function PasswordChange({ navigation }: any) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <NetworkStatusBadge />
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}

@@ -19,6 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import employeeApis from "../../../api/employee";
 import useApi from "../../../hooks/useApi";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 // import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import useAuth from "../../../auth/useAuth";
@@ -129,6 +130,7 @@ export default function ProfileTab({ navigation }: any) {
   return (
     <SafeAreaView flex={1}>
       <VStack style={styles.container}>
+        <NetworkStatusBadge />
         <TouchableOpacity
           style={styles.logOutButton}
           onPress={() => confirmLogOut()}

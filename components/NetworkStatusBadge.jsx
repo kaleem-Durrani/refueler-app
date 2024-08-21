@@ -14,8 +14,8 @@ export const NetworkStatusBadge = () => {
       variant="solid"
       action="error"
       style={{
-        position: "relative",
-        top: 0,
+        position: "fixed",
+        top: 25,
         width: "100%",
         // right: "40%",
         zIndex: 10000,

@@ -19,6 +19,7 @@ import {
   RadioLabel,
   CircleIcon,
 } from "@gluestack-ui/themed";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
@@ -98,6 +99,7 @@ export default function Signup({ navigation }: any) {
 
   return (
     <View style={styles.container}>
+      <NetworkStatusBadge />
       <LinearGradient
         colors={[COLORS.tertiary, COLORS.secondary]}
         start={[0.1, 0.7]}
@@ -116,6 +118,7 @@ export default function Signup({ navigation }: any) {
         >
           <MaterialIcons name="arrow-back-ios" size={24} color="white" />
         </TouchableOpacity>
+
         <Image
           source={require("../../../assets/images//auth/signup.png")}
           alt="login"

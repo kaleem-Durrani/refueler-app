@@ -18,6 +18,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ChevronUpIcon, ChevronDownIcon } from "@gluestack-ui/themed";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 export default function FAQ({ navigation }: any) {
   const faqs = [
@@ -55,6 +56,7 @@ export default function FAQ({ navigation }: any) {
 
   return (
     <SafeAreaView flex={1}>
+      <NetworkStatusBadge />
       <VStack style={styles.container}>
         <TouchableOpacity
           style={styles.backButton}

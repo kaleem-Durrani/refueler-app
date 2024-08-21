@@ -15,6 +15,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
 import PersonalDetailCard from "./components/PersonalDetailCard";
 import useProfile from "../../../hooks/useProfile";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 export default function PersonalDetail({ navigation }: any) {
   const { profile } = useProfile();
@@ -30,6 +31,7 @@ export default function PersonalDetail({ navigation }: any) {
 
   return (
     <View style={styles.container}>
+      <NetworkStatusBadge />
       <HStack justifyContent="center" alignItems="center">
         <TouchableOpacity
           style={styles.backButton}
