@@ -5,12 +5,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { Animated, Keyboard } from "react-native";
 
 import HomeTab from "../Screens/Tabs/HomeTab/HomeTab";
-import HistoryTab from "../Screens/Tabs/HistoryTab/HistoryTab";
 import ProfileTab from "../Screens/Tabs/ProfileTab/ProfileTab";
-import LoyaltyProgramTab from "../Screens/Tabs/LoyaltyTab/LoyaltyProgramTab";
-import { COLORS, PERCENT, SIZES } from "../Constants/Constants";
+import { COLORS, PERCENT } from "../Constants/Constants";
 import TopTabNavigator from "./TopTabNavigator";
-import useProfile from "../hooks/useProfile";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +16,6 @@ export default function TabNavigator() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [opacity, setOpacity] = useState(new Animated.Value(0));
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
-  const { profile, fetchProfile } = useProfile();
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -39,7 +35,6 @@ export default function TabNavigator() {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
     };
-    fetchProfile();
   }, []);
 
   return (
@@ -164,24 +159,6 @@ export default function TabNavigator() {
           },
         })}
       />
-
-      {profile && profile.type === "manager" && (
-        <Tab.Screen
-          name="Loyalty"
-          component={LoyaltyProgramTab}
-          listeners={({ navigation, route }) => ({
-            tabPress: (e) => {
-              if (path !== "Loyalty Program") {
-                e.preventDefault();
-                setIsAnimating(true);
-                setOpacity(new Animated.Value(0));
-                setPath("Loyalty");
-                navigation.navigate("Loyalty");
-              }
-            },
-          })}
-        />
-      )}
     </Tab.Navigator>
   );
 }

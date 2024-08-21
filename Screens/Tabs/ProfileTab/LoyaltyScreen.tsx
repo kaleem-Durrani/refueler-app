@@ -13,7 +13,7 @@ import employeeApis from "../../../api/employee";
 import useApi from "../../../hooks/useApi";
 import useProfile from "../../../hooks/useProfile";
 
-export default function LoyaltyProgramTab() {
+export default function LoyaltyScreen() {
   const { profile, fetchProfile } = useProfile();
   const [threshold, setThreshold] = useState(null);
   const setThresholdApi = useApi(employeeApis.updateLoyaltyProgram);

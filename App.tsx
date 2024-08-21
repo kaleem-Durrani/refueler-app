@@ -4,14 +4,8 @@ global.atob = decode;
 // import "react-native-reanimated";
 import "react-native-gesture-handler";
 import { config } from "@gluestack-ui/config";
-import {
-  Box,
-  GluestackUIProvider,
-  StatusBar,
-  View,
-} from "@gluestack-ui/themed";
+import { GluestackUIProvider, StatusBar, View } from "@gluestack-ui/themed";
 import { NavigationContainer } from "@react-navigation/native";
-import { ScrollView } from "react-native";
 import TabNavigator from "./Navigations/TabNavigator";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -20,7 +14,7 @@ import Login from "./Screens/Auth/Login/Login";
 import Signup from "./Screens/Auth/Signup/Signup";
 import { useEffect, useState } from "react";
 import PersonalDetail from "./Screens/Tabs/ProfileTab/PersonalDetail";
-import Notifications from "./Screens/Tabs/ProfileTab/Notifications";
+import LoyaltyScreen from "./Screens/Tabs/ProfileTab/LoyaltyScreen";
 import FAQ from "./Screens/Tabs/ProfileTab/FAQ";
 import PasswordChange from "./Screens/Tabs/ProfileTab/PasswordChange";
 import { COLORS } from "./Constants/Constants";
@@ -81,8 +75,8 @@ export default function App() {
                           />
                           <Stack.Screen
                             options={{ animation: "slide_from_right" }}
-                            name="Notifications"
-                            component={Notifications}
+                            name="Loyalty Screen"
+                            component={LoyaltyScreen}
                           />
                           <Stack.Screen
                             options={{ animation: "slide_from_right" }}

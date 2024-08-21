@@ -161,10 +161,19 @@ export default function ProfileTab({ navigation }: any) {
               title={"Personal Detail"}
               semiTitle={"Name, Phone no, Email"}
               iconName={"user"}
-              iconColor={"#f97316"}
+              iconColor={"#373737"}
               iconBgColor={"#ffedd5"}
               onPress={() => navigation.navigate("Personal Detail")}
             />
+            {profile.type === "manager" && (
+              <ProfileCard
+                title={"Loyalty Screen"}
+                iconName={"coins"}
+                iconColor={"#FFD700"}
+                iconBgColor={"#ffedd5"}
+                onPress={() => navigation.navigate("Loyalty Screen")}
+              />
+            )}
             <ProfileCard
               title={"Change Password"}
               // semiTitle={"Name, Phone no, Email"}
@@ -172,14 +181,6 @@ export default function ProfileTab({ navigation }: any) {
               iconColor={"#1A91FF"}
               iconBgColor={"#CCE9FF"}
               onPress={() => navigation.navigate("PasswordChange")}
-            />
-            <ProfileCard
-              title={"Notifications"}
-              // semiTitle={"Name, Phone no, Email"}
-              iconName={"paper-plane"}
-              iconColor={"#eab308"}
-              iconBgColor={"#fef9c3"}
-              onPress={() => navigation.navigate("Notifications")}
             />
             <ProfileCard
               title={"FAQs"}
