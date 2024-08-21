@@ -119,6 +119,7 @@ export default function Login({ navigation }: any) {
             marginTop: 20,
             alignItems: "flex-end",
           }}
+          onPress={() => navigation.navigate("RequestOTP")}
         >
           <Text style={styles.linkText}>Forgot your password ?</Text>
         </TouchableOpacity>

@@ -25,6 +25,8 @@ import UnverifiedAccountHome from "./Screens/Auth/UnverifiedAccountHome/Unverifi
 import VerifyAccount from "./Screens/Auth/VerifyAccount/VerifyAccount";
 import EmployeeListContext from "./Contexts/EmployeeListContext";
 import AddEmployee from "./Screens/Add Employee/AddEmployee";
+import RequestOTP from "./Screens/Auth/ForgotPassword/RequestOTP";
+import ForgotPassword from "./Screens/Auth/ForgotPassword/ForgotPassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -106,6 +108,11 @@ export default function App() {
                             name="VerifyAccount"
                             component={VerifyAccount}
                           />
+                          <Stack.Screen
+                            options={{ animation: "slide_from_right" }}
+                            name="ForgotPassword"
+                            component={ForgotPassword}
+                          />
                         </Stack.Group>
                       )
                     ) : (
@@ -119,6 +126,16 @@ export default function App() {
                           options={{ animation: "slide_from_right" }}
                           name="Signup"
                           component={Signup}
+                        />
+                        <Stack.Screen
+                          options={{ animation: "slide_from_right" }}
+                          name="RequestOTP"
+                          component={RequestOTP}
+                        />
+                        <Stack.Screen
+                          options={{ animation: "slide_from_right" }}
+                          name="ForgotPassword"
+                          component={ForgotPassword}
                         />
                       </Stack.Group>
                     )}
