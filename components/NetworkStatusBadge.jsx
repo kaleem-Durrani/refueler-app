@@ -1,8 +1,9 @@
 // NetworkStatusBadge.js
 import React from "react";
-import { Badge, BadgeText, BadgeIcon } from "@gluestack-ui/themed";
+import { Badge, BadgeText } from "@gluestack-ui/themed";
 import { useNetworkStatus } from "../hooks/useNetworkStatus";
 import Entypo from "@expo/vector-icons/Entypo";
+import { StatusBar } from "react-native";
 
 export const NetworkStatusBadge = () => {
   const isConnected = useNetworkStatus();
@@ -14,10 +15,10 @@ export const NetworkStatusBadge = () => {
       variant="solid"
       action="error"
       style={{
-        position: "fixed",
-        top: 25,
-        width: "100%",
-        // right: "40%",
+        position: "absolute",
+        top: "90%",
+        left: "25%",
+        // width: "100%",
         zIndex: 10000,
       }}
     >

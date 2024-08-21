@@ -74,7 +74,7 @@ export default function FAQ({ navigation }: any) {
             isDisabled={false}
           >
             {faqs.map((faq, index) => (
-              <React.Fragment key={index}>
+              <React.Fragment key={index} style={{ marginBottom: 10 }}>
                 <AccordionItem value={faq.question}>
                   <AccordionHeader>
                     <AccordionTrigger>
@@ -94,7 +94,7 @@ export default function FAQ({ navigation }: any) {
                       }}
                     </AccordionTrigger>
                   </AccordionHeader>
-                  <AccordionContent>
+                  <AccordionContent mb={"$5"}>
                     <AccordionContentText>{faq.answer}</AccordionContentText>
                   </AccordionContent>
                 </AccordionItem>
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.tertiary,
-    padding: "5%",
+    padding: "2%",
   },
   title: {
     marginTop: "20%",

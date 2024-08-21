@@ -122,7 +122,6 @@ async function registerForPushNotificationsAsync() {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 export default function HomeTab() {
-  const { user } = useAuth();
   const { profile, fetchProfile, refreshProfile } = useProfile();
   const createTransactionApi = useApi(employeeApis.createTransaction);
 
@@ -177,19 +176,12 @@ export default function HomeTab() {
 
   const camera = useRef<Camera>(null);
   const isFocused = useIsFocused();
-  const [isSideBarOn, setIsSideBarOn] = useState(false);
 
   const appState = useAppState();
   const isActive = isFocused && appState === "active";
   const { hasPermission, requestPermission } = useCameraPermission();
   const [permissionRequested, setPermissionRequested] = useState(false);
   const device = useCameraDevice("back");
-
-  const data = [
-    { id: "1", price: 500 },
-    { id: "2", price: 100 },
-    { id: "3", price: 1000 },
-  ];
 
   const focus = useCallback((point: Point) => {
     const c = camera.current;
@@ -350,7 +342,13 @@ export default function HomeTab() {
             {profile ? "Hello " + profile.name : "Loading..."}
           </Text>
           <Text ml={"$2"} mt={-6} mb={"$1"} size="sm" color="gray">
-            Good Morning
+            {(() => {
+              const hour = new Date().getHours();
+              if (hour < 4) return "Good Night";
+              if (hour < 12) return "Good Morning";
+              if (hour < 18) return "Good Afternoon";
+              return "Good Evening";
+            })()}
           </Text>
 
           {profile ? (
@@ -373,35 +371,13 @@ export default function HomeTab() {
             </Text>
           )}
         </VStack>
-
-        <GestureDetector gesture={gesture}>
-          <View
-            style={
-              isSideBarOn
-                ? {
-                    flex: 1,
-                    flexDirection: "row",
-                    backgroundColor: COLORS.tertiary,
-                  }
-                : {}
-            }
-          >
-            {/* <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => setIsSideBarOn(!isSideBarOn)}
-            >
-              <MaterialIcons
-                name={isSideBarOn ? "arrow-circle-right" : "arrow-circle-left"}
-                size={60}
-                color={COLORS.tertiary}
-              />
-            </TouchableOpacity> */}
-
-            <SafeAreaView p={"$4"}>
+        <View w={"100%"} h={"100%"} p={"$4"}>
+          <GestureDetector gesture={gesture}>
+            <SafeAreaView>
               <Camera
                 ref={camera}
                 style={{
-                  width: isSideBarOn ? "65%" : "100%",
+                  width: "100%",
                   height: "100%",
                   zIndex: -1,
                 }}
@@ -410,55 +386,9 @@ export default function HomeTab() {
                 codeScanner={codeScanner}
               />
             </SafeAreaView>
-
-            {/* <Box style={isSideBarOn ? styles.sidebarOn : styles.sidebarOff}>
-              <Text size="md" color={COLORS.primary} bold>
-                Previous Scans
-              </Text>
-              <FlatList
-                style={{ width: "100%", padding: PERCENT[2] }}
-                data={data}
-                renderItem={() => (
-                  <Box flex={1} paddingVertical={"$6"} alignItems="center">
-                    <Image
-                      size="md"
-                      source={require("../../../assets/images/qrcode.png")}
-                      alt="QRCode"
-                    />
-
-                    <Divider mt={"$3"} />
-                  </Box>
-                )}
-                keyExtractor={(item) => item.id}
-              />
-              <Text>{user?.email} NEw User</Text>
-            </Box> */}
-          </View>
-        </GestureDetector>
+          </GestureDetector>
+        </View>
       </SafeAreaView>
     );
   }
 }
-const styles = StyleSheet.create({
-  sidebarOn: { flex: 1, alignItems: "center", marginTop: PERCENT[25] },
-  sidebarOff: { display: "none" },
-
-  backButton: {
-    position: "absolute",
-    top: PERCENT[6],
-    right: PERCENT[2],
-    backgroundColor: COLORS.primary,
-    borderRadius: PERCENT[50],
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  floatingButton: {
-    position: "absolute",
-    top: "80%",
-    right: PERCENT[50],
-    backgroundColor: COLORS.tertiary,
-    borderRadius: PERCENT[50],
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

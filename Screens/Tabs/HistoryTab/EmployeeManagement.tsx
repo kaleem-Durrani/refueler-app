@@ -48,6 +48,7 @@ export default function EmployeeManagement({ navigation }: any) {
 
   return (
     <View>
+      <NetworkStatusBadge />
       <HStack justifyContent="space-between">
         <Button
           isDisabled={loading}
@@ -56,7 +57,6 @@ export default function EmployeeManagement({ navigation }: any) {
           mt={"$3"}
           ml={"$4"}
         >
-          <NetworkStatusBadge />
           <ButtonText>Refresh List</ButtonText>
         </Button>
 
