@@ -15,6 +15,7 @@ import FilterText from "./components/FilterText";
 import useRefuelerTransactionHistory from "../../../hooks/useRefuelerTransactionHistory";
 import { format } from "date-fns";
 import { COLORS } from "../../../Constants/Constants";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 export default function RefuelerHistory() {
   const [filter, setFilter] = useState("Today");
@@ -151,6 +152,7 @@ export default function RefuelerHistory() {
 
   return (
     <VStack flex={1} px={"$0"}>
+      <NetworkStatusBadge />
       <Button
         onPress={() => fetchTransactionHistory()}
         m={"$3"}

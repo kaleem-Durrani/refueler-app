@@ -1,7 +1,24 @@
-import { VStack, Text, SafeAreaView, ScrollView } from "@gluestack-ui/themed";
+import {
+  VStack,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionTrigger,
+  AccordionContent,
+  AccordionTitleText,
+  AccordionContentText,
+  AccordionIcon,
+  Divider,
+} from "@gluestack-ui/themed";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
 import { StyleSheet, TouchableOpacity } from "react-native";
+import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
+import { ChevronUpIcon, ChevronDownIcon } from "@gluestack-ui/themed";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 export default function FAQ({ navigation }: any) {
   const faqs = [
@@ -14,11 +31,6 @@ export default function FAQ({ navigation }: any) {
       question: "How do I use Pakfuel?",
       answer:
         "Simply download the app, sign up, and link your payment method. When you pull into a participating gas station, select the pump number, and authorize the payment through the app.",
-    },
-    {
-      question: "Which payment methods are supported?",
-      answer:
-        "Pakfuel integrates with third-party gateways like Easypaisa and Jazzcash, giving users multiple payment options to choose from.",
     },
     {
       question: "Are there any rewards for using Pakfuel?",
@@ -36,14 +48,15 @@ export default function FAQ({ navigation }: any) {
         "Yes, Pakfuel allows users to track their fuel transactions and vehicle mileage, providing valuable insights into their driving habits and helping them maintain their cars better.",
     },
     {
-      question: "How do I contact customer support?",
+      question: "How can I find a participating gas station?",
       answer:
-        "If you have any issues or questions, you can contact our customer support through the app or visit our website for more information.",
+        "You can find a participating gas station by searching for them in the app or by using the gas station locator feature.",
     },
   ];
 
   return (
     <SafeAreaView flex={1}>
+      <NetworkStatusBadge />
       <VStack style={styles.container}>
         <TouchableOpacity
           style={styles.backButton}
@@ -53,12 +66,42 @@ export default function FAQ({ navigation }: any) {
         </TouchableOpacity>
         <Text style={styles.title}>Frequently Asked Questions</Text>
         <ScrollView style={styles.formContainer}>
-          {faqs.map((faq, index) => (
-            <VStack key={index} style={styles.faqItem}>
-              <Text style={styles.question}>{faq.question}</Text>
-              <Text style={styles.answer}>{faq.answer}</Text>
-            </VStack>
-          ))}
+          <Accordion
+            size="md"
+            variant="filled"
+            type="single"
+            isCollapsible={true}
+            isDisabled={false}
+          >
+            {faqs.map((faq, index) => (
+              <React.Fragment key={index} style={{ marginBottom: 10 }}>
+                <AccordionItem value={faq.question}>
+                  <AccordionHeader>
+                    <AccordionTrigger>
+                      {({ isExpanded }) => {
+                        return (
+                          <>
+                            <AccordionTitleText>
+                              {faq.question}
+                            </AccordionTitleText>
+                            {isExpanded ? (
+                              <AccordionIcon as={ChevronUpIcon} ml="$3" />
+                            ) : (
+                              <AccordionIcon as={ChevronDownIcon} ml="$3" />
+                            )}
+                          </>
+                        );
+                      }}
+                    </AccordionTrigger>
+                  </AccordionHeader>
+                  <AccordionContent mb={"$5"}>
+                    <AccordionContentText>{faq.answer}</AccordionContentText>
+                  </AccordionContent>
+                </AccordionItem>
+                {index < faqs.length - 1 && <Divider />}
+              </React.Fragment>
+            ))}
+          </Accordion>
         </ScrollView>
       </VStack>
     </SafeAreaView>
@@ -69,7 +112,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.tertiary,
-    padding: "5%",
+    padding: "2%",
   },
   title: {
     marginTop: "20%",
@@ -95,18 +138,5 @@ const styles = StyleSheet.create({
     padding: "8%",
     elevation: 10,
     marginTop: "10%",
-  },
-  faqItem: {
-    marginBottom: "5%",
-    paddingBottom: "10%",
-  },
-  question: {
-    fontWeight: "bold",
-    fontSize: PERCENT[5],
-    marginBottom: "2%",
-  },
-  answer: {
-    fontSize: PERCENT[4],
-    color: "gray",
   },
 });

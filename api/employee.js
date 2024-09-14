@@ -41,6 +41,12 @@ const uploadImage = (image) => client.post("/employee/image", { image });
 const updatePushToken = (pushToken) =>
   client.post("/employee/updatePushToken", { pushToken });
 
+const updateLoyaltyProgram = (threshold, pumpId) =>
+  client.post("/loyalty/setThreshold", { threshold, pumpId });
+
+const deleteEmployee = (pumpId, employeeEmail) =>
+  client.post("/pump/removeEmployeeFromPump", { pumpId, employeeEmail });
+
 export default {
   getProfile,
   getRefuelerTransactionHistory,
@@ -51,4 +57,6 @@ export default {
   addEmployeeToPump,
   uploadImage,
   updatePushToken,
+  updateLoyaltyProgram,
+  deleteEmployee,
 };

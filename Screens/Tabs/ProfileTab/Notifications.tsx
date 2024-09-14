@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import NotificationCard from "./components/NotificationsCard";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
 import { MaterialIcons } from "@expo/vector-icons";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 export default function Notifications({ navigation }: any) {
   const notifications = [
@@ -33,6 +34,7 @@ export default function Notifications({ navigation }: any) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <NetworkStatusBadge />
       <ScrollView style={styles.container}>
         <TouchableOpacity
           style={styles.backButton}

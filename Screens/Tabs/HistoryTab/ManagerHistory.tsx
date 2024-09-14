@@ -29,6 +29,7 @@ import useFetchEmployeeList from "../../../hooks/useFetchEmployeeList";
 import employeeApis from "../../../api/employee";
 import useApi from "../../../hooks/useApi";
 import { Alert } from "react-native";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 import { format } from "date-fns";
 
 export default function ManagerHistory() {
@@ -79,6 +80,7 @@ export default function ManagerHistory() {
 
   return (
     <VStack flex={1} px={"$0"}>
+      <NetworkStatusBadge />
       <HStack p={"$3"} justifyContent="space-between">
         <Button
           isDisabled={loading || employeeHistoryApi.loading}

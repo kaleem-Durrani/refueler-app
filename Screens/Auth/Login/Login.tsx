@@ -1,43 +1,29 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   Input,
   InputSlot,
-  InputIcon,
+  LinearGradient,
+  Image,
   InputField,
   Button,
   ButtonText,
   HStack,
-  Divider,
 } from "@gluestack-ui/themed";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
-import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 import authApi from "../../../api/auth";
 import useAuth from "../../../auth/useAuth";
 
-// import {
-//   GoogleSignin,
-//   statusCodes,
-//   GoogleSigninButton,
-// } from "@react-native-google-signin/google-signin";
-
-// GoogleSignin.configure({
-//   webClientId:
-//     "257394933258-dtvt1efikomo57q4tuscdqjaumldaj1r.apps.googleusercontent.com", // replace with your web client ID
-//   offlineAccess: true,
-// });
-
 export default function Login({ navigation }: any) {
-  // const { user, setUser } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
-
   const auth = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
@@ -71,38 +57,29 @@ export default function Login({ navigation }: any) {
     auth.login(result.data.token);
   };
 
-  // useEffect(() => {
-  //   GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-  // }, []);
-
-  // const _signIn = async () => {
-  //   try {
-  //     await GoogleSignin.hasPlayServices();
-  //     const userInfo = await GoogleSignin.signIn();
-  //     // console.log("User Info", userInfo);
-  //     setUser(userInfo);
-  //   } catch (error: any) {
-  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-  //       console.log("user cancelled the login flow");
-  //     } else if (error.code === statusCodes.IN_PROGRESS) {
-  //       console.log("operation (e.g. sign in) already in progress");
-  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-  //       console.log("play services not available or outdated");
-  //     } else {
-  //       console.log("some other error happened", error);
-  //     }
-  //   }
-  // };
-
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity
-        style={styles.backArrow}
-        onPress={() => navigation.goBack()}
+      <LinearGradient
+        colors={[COLORS.tertiary, COLORS.secondary]}
+        start={[0.1, 0.7]}
+        end={[1, -0.3]}
+        style={{
+          position: "relative",
+          top: 10,
+          height: "30%",
+          elevation: 5,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <MaterialIcons name="arrow-back-ios" size={22} color="white" />
-      </TouchableOpacity> */}
-      <Text style={styles.text}>Login</Text>
+        <NetworkStatusBadge />
+        <Image
+          source={require("../../../assets/images//auth/login.png")}
+          alt="login"
+          size="2xl"
+          mb={"$2"}
+        />
+      </LinearGradient>
 
       <View py={"$4"} style={styles.loginArea}>
         <Text style={styles.heading}>Welcome Back</Text>
@@ -111,10 +88,7 @@ export default function Login({ navigation }: any) {
         <Text mt={"$3"} style={styles.inputLogo}>
           Email
         </Text>
-        <Input variant="rounded" size="lg">
-          <InputSlot ml={"$3"}>
-            <MaterialIcons name="email" size={20} color={COLORS.tertiary} />
-          </InputSlot>
+        <Input variant="underlined" size="lg">
           <InputField
             placeholder="Enter your Email"
             value={email}
@@ -125,10 +99,7 @@ export default function Login({ navigation }: any) {
         <Text mt={"$3"} style={styles.inputLogo}>
           Password
         </Text>
-        <Input variant="rounded" size="lg">
-          <InputSlot ml={"$3"}>
-            <MaterialIcons name="password" size={20} color={COLORS.tertiary} />
-          </InputSlot>
+        <Input variant="underlined" size="lg">
           <InputField
             type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
@@ -150,6 +121,7 @@ export default function Login({ navigation }: any) {
             marginTop: 20,
             alignItems: "flex-end",
           }}
+          onPress={() => navigation.navigate("RequestOTP")}
         >
           <Text style={styles.linkText}>Forgot your password ?</Text>
         </TouchableOpacity>
@@ -163,20 +135,6 @@ export default function Login({ navigation }: any) {
         >
           <ButtonText>Sign in</ButtonText>
         </Button>
-
-        {/* <HStack mt={"$3"} alignItems="center" justifyContent="center">
-          <Divider w={PERCENT[20]} />
-          <Text marginHorizontal={PERCENT[5]}>Or sign in with</Text>
-          <Divider w={PERCENT[20]} />
-        </HStack> */}
-
-        {/* Login with google */}
-        {/* <GoogleSigninButton
-          style={{ width: "100%" }}
-          onPress={_signIn}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-        /> */}
         <HStack my={"$8"} justifyContent="center">
           <Text>Don't have an account ? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Signup")}>

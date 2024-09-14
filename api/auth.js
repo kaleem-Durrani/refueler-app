@@ -17,4 +17,21 @@ const requestNewOtp = () => client.get("/auth/employee/requestNewOtp", {});
 
 const verifyOtp = (otp) => client.post("/auth/employee/verify-otp", { otp });
 
-export default { login, signup, requestNewOtp, verifyOtp };
+const requestPasswordReset = (email) =>
+  client.post("auth/employee/requestPasswordReset", { email });
+
+const verifyOtpForgetPassword = (otp, email) =>
+  client.post("auth/employee/verifyOtpForgetPassword", { otp, email });
+
+const resetPassword = (email, newPassword, otp) =>
+  client.post("auth/employee/resetPassword", { email, newPassword, otp });
+
+export default {
+  login,
+  signup,
+  requestNewOtp,
+  verifyOtp,
+  requestPasswordReset,
+  verifyOtpForgetPassword,
+  resetPassword,
+};

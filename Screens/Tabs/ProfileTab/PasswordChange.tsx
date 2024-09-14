@@ -15,6 +15,7 @@ import { PERCENT } from "../../../Constants/Constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../Constants/Constants";
 import employeeApis from "../../../api/employee";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 import useApi from "../../../hooks/useApi";
 
 export default function PasswordChange({ navigation }: any) {
@@ -78,6 +79,7 @@ export default function PasswordChange({ navigation }: any) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <NetworkStatusBadge />
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}
@@ -88,14 +90,7 @@ export default function PasswordChange({ navigation }: any) {
       <VStack style={styles.container}>
         <View style={styles.formGroup}>
           <Text style={styles.inputLabel}>Current Password</Text>
-          <Input variant="rounded" size="lg">
-            <InputSlot ml={"$1"}>
-              <MaterialIcons
-                name="password"
-                size={24}
-                color={COLORS.tertiary}
-              />
-            </InputSlot>
+          <Input variant="underlined" size="lg">
             <InputField
               type={showPassword ? "text" : "password"}
               placeholder="Current Password"
@@ -117,14 +112,7 @@ export default function PasswordChange({ navigation }: any) {
 
         <View style={styles.formGroup}>
           <Text style={styles.inputLabel}>New Password</Text>
-          <Input variant="rounded" size="lg">
-            <InputSlot ml={"$1"}>
-              <MaterialIcons
-                name="password"
-                size={24}
-                color={COLORS.tertiary}
-              />
-            </InputSlot>
+          <Input variant="underlined" size="lg">
             <InputField
               type={showPassword ? "text" : "password"}
               placeholder="New Password"
@@ -146,14 +134,7 @@ export default function PasswordChange({ navigation }: any) {
 
         <View style={styles.formGroup}>
           <Text style={styles.inputLabel}>Confirm New Password</Text>
-          <Input variant="rounded" size="lg">
-            <InputSlot ml={"$1"}>
-              <MaterialIcons
-                name="password"
-                size={24}
-                color={COLORS.tertiary}
-              />
-            </InputSlot>
+          <Input variant="underlined" size="lg">
             <InputField
               type={showPassword ? "text" : "password"}
               placeholder="New Password"
@@ -229,7 +210,6 @@ const styles = StyleSheet.create({
   },
   inputField: {
     backgroundColor: "#f8f8f8",
-    borderRadius: 10,
     padding: "2%",
     fontSize: PERCENT[4],
   },
