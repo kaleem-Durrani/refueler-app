@@ -8,20 +8,30 @@ import {
   Button,
   ButtonText,
   HStack,
+  Spinner,
   Text,
 } from "@gluestack-ui/themed";
 import { MaterialIcons } from "@expo/vector-icons";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
-import useAuth from "../../../auth/useAuth";
 import PersonalDetailCard from "./components/PersonalDetailCard";
 import useProfile from "../../../hooks/useProfile";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 export default function PersonalDetail({ navigation }: any) {
-  const { user } = useAuth();
   const { profile } = useProfile();
+
+  if (!profile) {
+    return (
+      <View flex={1} justifyContent="center" alignItems="center">
+        <Spinner size="large" />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
+      <NetworkStatusBadge />
       <HStack justifyContent="center" alignItems="center">
         <TouchableOpacity
           style={styles.backButton}

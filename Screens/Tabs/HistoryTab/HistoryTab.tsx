@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import RefuelerHistory from "./RefuelerHistory";
 import ManagerHistory from "./ManagerHistory";
 import EmployeeManagement from "./EmployeeManagement";
-
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { StyleSheet, TouchableOpacity } from "react-native";
@@ -15,6 +15,7 @@ export default function HistoryTab() {
 
   return (
     <View display="flex" flex={1} bg="white">
+      <NetworkStatusBadge />
       <View
         bg="$info500"
         // borderRadius={20}

@@ -11,6 +11,7 @@ import {
 import React, { useEffect } from "react";
 import EmployeeSwitch from "./components/EmployeeSwitch";
 import useFetchEmployeeList from "../../../hooks/useFetchEmployeeList";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 export default function EmployeeManagement({ navigation }: any) {
   const {
@@ -47,6 +48,7 @@ export default function EmployeeManagement({ navigation }: any) {
 
   return (
     <View>
+      <NetworkStatusBadge />
       <HStack justifyContent="space-between">
         <Button
           isDisabled={loading}
@@ -93,6 +95,8 @@ export default function EmployeeManagement({ navigation }: any) {
                 createdAt={employee.createdAt}
                 email={employee.email}
                 phoneNumber={employee.phoneNumber}
+                imageUrl={employee.imageUrl}
+                pumpId={employee.pumpId}
               />
             ))}
         </ScrollView>

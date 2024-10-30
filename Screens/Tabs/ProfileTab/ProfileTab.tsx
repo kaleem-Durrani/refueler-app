@@ -7,6 +7,7 @@ import {
   AvatarFallbackText,
   ScrollView,
   Pressable,
+  Spinner,
   SafeAreaView,
 } from "@gluestack-ui/themed";
 import React, { useState, useEffect } from "react";
@@ -18,6 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import employeeApis from "../../../api/employee";
 import useApi from "../../../hooks/useApi";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 
 // import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import useAuth from "../../../auth/useAuth";
@@ -117,9 +119,18 @@ export default function ProfileTab({ navigation }: any) {
     logOut();
   };
 
+  if (!profile) {
+    return (
+      <View flex={1} justifyContent="center" alignItems="center">
+        <Spinner size="large" />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   return (
     <SafeAreaView flex={1}>
       <VStack style={styles.container}>
+        <NetworkStatusBadge />
         <TouchableOpacity
           style={styles.logOutButton}
           onPress={() => confirmLogOut()}
@@ -161,10 +172,19 @@ export default function ProfileTab({ navigation }: any) {
               title={"Personal Detail"}
               semiTitle={"Name, Phone no, Email"}
               iconName={"user"}
-              iconColor={"#f97316"}
+              iconColor={"#373737"}
               iconBgColor={"#ffedd5"}
               onPress={() => navigation.navigate("Personal Detail")}
             />
+            {profile.type === "manager" && (
+              <ProfileCard
+                title={"Loyalty Screen"}
+                iconName={"coins"}
+                iconColor={"#FFD700"}
+                iconBgColor={"#ffedd5"}
+                onPress={() => navigation.navigate("Loyalty Screen")}
+              />
+            )}
             <ProfileCard
               title={"Change Password"}
               // semiTitle={"Name, Phone no, Email"}
@@ -172,14 +192,6 @@ export default function ProfileTab({ navigation }: any) {
               iconColor={"#1A91FF"}
               iconBgColor={"#CCE9FF"}
               onPress={() => navigation.navigate("PasswordChange")}
-            />
-            <ProfileCard
-              title={"Notifications"}
-              // semiTitle={"Name, Phone no, Email"}
-              iconName={"paper-plane"}
-              iconColor={"#eab308"}
-              iconBgColor={"#fef9c3"}
-              onPress={() => navigation.navigate("Notifications")}
             />
             <ProfileCard
               title={"FAQs"}

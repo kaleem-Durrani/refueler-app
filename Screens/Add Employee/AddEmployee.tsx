@@ -12,6 +12,7 @@ import { COLORS, PERCENT } from "../../Constants/Constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import employeeApis from "../../api/employee";
 import useApi from "../../hooks/useApi";
+import { NetworkStatusBadge } from "../../components/NetworkStatusBadge";
 
 const AddEmployee = ({ navigation }: any) => {
   const [email, setEmail] = useState("");
@@ -63,6 +64,7 @@ const AddEmployee = ({ navigation }: any) => {
           color={COLORS.tertiary}
         />
       </TouchableOpacity>
+      <NetworkStatusBadge />
       <Text style={styles.title}>Add Employee</Text>
 
       <Text fontWeight="bold" color={COLORS.activeText} mt={"$6"}>

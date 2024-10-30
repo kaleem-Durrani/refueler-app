@@ -11,12 +11,15 @@ import {
   Divider,
   ScrollView,
   RadioGroup,
+  LinearGradient,
   RadioIndicator,
+  Image,
   RadioIcon,
   Radio,
   RadioLabel,
   CircleIcon,
 } from "@gluestack-ui/themed";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { PERCENT, COLORS } from "../../../Constants/Constants";
@@ -96,14 +99,40 @@ export default function Signup({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.backArrow}
-        onPress={() => navigation.goBack()}
+      <NetworkStatusBadge />
+      <LinearGradient
+        colors={[COLORS.tertiary, COLORS.secondary]}
+        start={[0.1, 0.7]}
+        end={[1, -0.3]}
+        style={{
+          position: "relative",
+          top: 30,
+          height: "30%",
+          elevation: 5,
+          left: 20,
+        }}
       >
-        <MaterialIcons name="arrow-back-ios" size={22} color="white" />
-      </TouchableOpacity>
-      <Text style={styles.text}>Sign up</Text>
+        <TouchableOpacity
+          style={styles.backArrow}
+          onPress={() => navigation.goBack()}
+        >
+          <MaterialIcons name="arrow-back-ios" size={24} color="white" />
+        </TouchableOpacity>
 
+        <Image
+          source={require("../../../assets/images//auth/signup.png")}
+          alt="login"
+          size="2xl"
+          mb={"$12"}
+          style={{
+            position: "absolute",
+            left: 45,
+            elevation: 5,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        />
+      </LinearGradient>
       <View py={"$4"} style={styles.loginArea}>
         <Text style={styles.heading}>Create your Account</Text>
 
@@ -120,10 +149,7 @@ export default function Signup({ navigation }: any) {
           <Text mt={"$6"} style={styles.inputLogo}>
             User name
           </Text>
-          <Input variant="rounded" size="lg" isDisabled={false}>
-            <InputSlot ml={"$3"}>
-              <MaterialIcons name="person" size={20} color={COLORS.tertiary} />
-            </InputSlot>
+          <Input variant="underlined" size="lg" isDisabled={false}>
             <InputField
               placeholder="Enter your Name"
               value={name}
@@ -136,10 +162,7 @@ export default function Signup({ navigation }: any) {
           <Text mt={"$4"} style={styles.inputLogo}>
             Email
           </Text>
-          <Input variant="rounded" size="lg" isDisabled={false}>
-            <InputSlot ml={"$3"}>
-              <MaterialIcons name="email" size={20} color={COLORS.tertiary} />
-            </InputSlot>
+          <Input variant="underlined" size="lg" isDisabled={false}>
             <InputField
               placeholder="Enter your Email"
               value={email}
@@ -152,14 +175,7 @@ export default function Signup({ navigation }: any) {
           <Text mt={"$4"} style={styles.inputLogo}>
             Password
           </Text>
-          <Input variant="rounded" size="lg" isDisabled={false}>
-            <InputSlot ml={"$3"}>
-              <MaterialIcons
-                name="password"
-                size={20}
-                color={COLORS.tertiary}
-              />
-            </InputSlot>
+          <Input variant="underlined" size="lg" isDisabled={false}>
             <InputField
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
@@ -182,14 +198,7 @@ export default function Signup({ navigation }: any) {
           <Text mt={"$4"} style={styles.inputLogo}>
             Confirm password
           </Text>
-          <Input variant="rounded" size="lg" isDisabled={false}>
-            <InputSlot ml={"$3"}>
-              <MaterialIcons
-                name="password"
-                size={20}
-                color={COLORS.tertiary}
-              />
-            </InputSlot>
+          <Input variant="underlined" size="lg" isDisabled={false}>
             <InputField
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
@@ -212,10 +221,7 @@ export default function Signup({ navigation }: any) {
           <Text mt={"$4"} style={styles.inputLogo}>
             Phone Number
           </Text>
-          <Input variant="rounded" size="lg" isDisabled={false}>
-            <InputSlot ml={"$3"}>
-              <MaterialIcons name="person" size={20} color={COLORS.tertiary} />
-            </InputSlot>
+          <Input variant="underlined" size="lg" isDisabled={false}>
             <InputField
               placeholder="Enter your Phone Number"
               value={phoneNumber}
@@ -260,39 +266,6 @@ export default function Signup({ navigation }: any) {
             <ButtonText>Sign up</ButtonText>
           </Button>
 
-          {/* <HStack mt={"$3"} alignItems="center">
-            <Divider />
-            <Text>Or sign up with</Text>
-            <Divider />
-          </HStack>
-
-          <HStack mt={"$3"} gap={5}>
-            <HStack
-              flex={1}
-              p={"$3"}
-              justifyContent="center"
-              gap={10}
-              borderWidth={2}
-              borderColor="lightgray"
-              borderRadius={10}
-            >
-              <FontAwesome6 name="google" size={24} color="orange" />
-              <Text>Google</Text>
-            </HStack>
-            <HStack
-              flex={1}
-              p={"$3"}
-              justifyContent="center"
-              gap={10}
-              borderWidth={2}
-              borderColor="lightgray"
-              borderRadius={10}
-            >
-              <MaterialIcons name="facebook" size={24} color="blue" />
-              <Text>Facebook</Text>
-            </HStack>
-          </HStack> */}
-
           <HStack my={"$8"}>
             <Text>Already have an account ? </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -331,10 +304,8 @@ const styles = StyleSheet.create({
   },
   backArrow: {
     position: "absolute",
-    margin: "3%",
+    marginLeft: "5%",
     zIndex: 5,
-    alignItems: "center",
-    justifyContent: "center",
   },
   inputLogo: {
     color: COLORS.tertiary,

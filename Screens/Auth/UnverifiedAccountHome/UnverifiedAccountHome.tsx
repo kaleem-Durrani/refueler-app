@@ -10,6 +10,7 @@ import React, { useRef, useState } from "react";
 import { Alert, TouchableOpacity } from "react-native";
 import { COLORS, HEIGHT, PERCENT } from "../../../Constants/Constants";
 import { FontAwesome } from "@expo/vector-icons";
+import { NetworkStatusBadge } from "../../../components/NetworkStatusBadge";
 import useAuth from "../../../auth/useAuth";
 
 const UnverifiedAccountHome = ({ navigation }: any) => {
@@ -45,6 +46,7 @@ const UnverifiedAccountHome = ({ navigation }: any) => {
           />
           <Text size="2xs">Logout</Text>
         </TouchableOpacity>
+        <NetworkStatusBadge />
       </View>
 
       <Text color={COLORS.tertiary} bold size="2xl">

@@ -4,14 +4,8 @@ global.atob = decode;
 // import "react-native-reanimated";
 import "react-native-gesture-handler";
 import { config } from "@gluestack-ui/config";
-import {
-  Box,
-  GluestackUIProvider,
-  StatusBar,
-  View,
-} from "@gluestack-ui/themed";
+import { GluestackUIProvider, StatusBar, View } from "@gluestack-ui/themed";
 import { NavigationContainer } from "@react-navigation/native";
-import { ScrollView } from "react-native";
 import TabNavigator from "./Navigations/TabNavigator";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -20,17 +14,20 @@ import Login from "./Screens/Auth/Login/Login";
 import Signup from "./Screens/Auth/Signup/Signup";
 import { useEffect, useState } from "react";
 import PersonalDetail from "./Screens/Tabs/ProfileTab/PersonalDetail";
-import Notifications from "./Screens/Tabs/ProfileTab/Notifications";
+import LoyaltyScreen from "./Screens/Tabs/ProfileTab/LoyaltyScreen";
 import FAQ from "./Screens/Tabs/ProfileTab/FAQ";
 import PasswordChange from "./Screens/Tabs/ProfileTab/PasswordChange";
 import { COLORS } from "./Constants/Constants";
 import AuthContext from "./auth/context";
 import ProfileContext from "./Contexts/ProfileContext";
+import { NetworkProvider } from "./Contexts/NetworkContext";
 import authStorage from "./auth/storage";
 import UnverifiedAccountHome from "./Screens/Auth/UnverifiedAccountHome/UnverifiedAccountHome";
 import VerifyAccount from "./Screens/Auth/VerifyAccount/VerifyAccount";
 import EmployeeListContext from "./Contexts/EmployeeListContext";
 import AddEmployee from "./Screens/Add Employee/AddEmployee";
+import RequestOTP from "./Screens/Auth/ForgotPassword/RequestOTP";
+import ForgotPassword from "./Screens/Auth/ForgotPassword/ForgotPassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -60,83 +57,103 @@ export default function App() {
         <EmployeeListContext.Provider
           value={{ employeesList, setEmployeesList }}
         >
-          <NavigationContainer>
-            <GluestackUIProvider config={config}>
-              <GestureHandlerRootView style={{ flex: 1 }}>
-                <View display="flex" flex={1} bg="transparent">
-                  <StatusBar
-                    barStyle="light-content"
-                    backgroundColor={COLORS.tertiary}
-                    translucent={false}
-                  />
-                  <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    {user ? (
-                      user.isVerified && user.pumpId ? (
-                        <Stack.Group>
-                          <Stack.Screen name="home" component={TabNavigator} />
-                          <Stack.Screen
-                            options={{ animation: "slide_from_right" }}
-                            name="Personal Detail"
-                            component={PersonalDetail}
-                          />
-                          <Stack.Screen
-                            options={{ animation: "slide_from_right" }}
-                            name="Notifications"
-                            component={Notifications}
-                          />
-                          <Stack.Screen
-                            options={{ animation: "slide_from_right" }}
-                            name="PasswordChange"
-                            component={PasswordChange}
-                          />
-                          <Stack.Screen
-                            options={{ animation: "slide_from_right" }}
-                            name="FAQ"
-                            component={FAQ}
-                          />
-                          <Stack.Screen
-                            options={{ animation: "slide_from_bottom" }}
-                            name="AddEmployee"
-                            component={AddEmployee}
-                          />
-                        </Stack.Group>
+          <NetworkProvider>
+            <NavigationContainer>
+              <GluestackUIProvider config={config}>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                  <View display="flex" flex={1} bg="transparent">
+                    <StatusBar
+                      barStyle="light-content"
+                      backgroundColor={COLORS.tertiary}
+                      translucent={false}
+                    />
+                    <Stack.Navigator screenOptions={{ headerShown: false }}>
+                      {user ? (
+                        user.isVerified && user.pumpId ? (
+                          <Stack.Group>
+                            <Stack.Screen
+                              name="home"
+                              component={TabNavigator}
+                            />
+                            <Stack.Screen
+                              options={{ animation: "slide_from_right" }}
+                              name="Personal Detail"
+                              component={PersonalDetail}
+                            />
+                            <Stack.Screen
+                              options={{ animation: "slide_from_right" }}
+                              name="Loyalty Screen"
+                              component={LoyaltyScreen}
+                            />
+                            <Stack.Screen
+                              options={{ animation: "slide_from_right" }}
+                              name="PasswordChange"
+                              component={PasswordChange}
+                            />
+                            <Stack.Screen
+                              options={{ animation: "slide_from_right" }}
+                              name="FAQ"
+                              component={FAQ}
+                            />
+                            <Stack.Screen
+                              options={{ animation: "slide_from_bottom" }}
+                              name="AddEmployee"
+                              component={AddEmployee}
+                            />
+                          </Stack.Group>
+                        ) : (
+                          <Stack.Group>
+                            <Stack.Screen
+                              options={{ animation: "slide_from_left" }}
+                              name="UnverifiedAccountHome"
+                              component={UnverifiedAccountHome}
+                            />
+                            <Stack.Screen
+                              options={{ animation: "slide_from_right" }}
+                              name="VerifyAccount"
+                              component={VerifyAccount}
+                            />
+                            <Stack.Screen
+                              options={{ animation: "slide_from_right" }}
+                              name="ForgotPassword"
+                              component={ForgotPassword}
+                            />
+                          </Stack.Group>
+                        )
                       ) : (
                         <Stack.Group>
                           <Stack.Screen
                             options={{ animation: "slide_from_left" }}
-                            name="UnverifiedAccountHome"
-                            component={UnverifiedAccountHome}
+                            name="Login"
+                            component={Login}
                           />
                           <Stack.Screen
                             options={{ animation: "slide_from_right" }}
-                            name="VerifyAccount"
-                            component={VerifyAccount}
+                            name="Signup"
+                            component={Signup}
+                          />
+                          <Stack.Screen
+                            options={{ animation: "slide_from_right" }}
+                            name="RequestOTP"
+                            component={RequestOTP}
+                          />
+                          <Stack.Screen
+                            options={{ animation: "slide_from_right" }}
+                            name="ForgotPassword"
+                            component={ForgotPassword}
                           />
                         </Stack.Group>
-                      )
-                    ) : (
-                      <Stack.Group>
-                        <Stack.Screen
-                          options={{ animation: "slide_from_left" }}
-                          name="Login"
-                          component={Login}
-                        />
-                        <Stack.Screen
-                          options={{ animation: "slide_from_right" }}
-                          name="Signup"
-                          component={Signup}
-                        />
-                      </Stack.Group>
-                    )}
-                  </Stack.Navigator>
+                      )}
+                    </Stack.Navigator>
 
-                  {/* <TabNavigator /> */}
-                  {/* <Login /> */}
-                  {/* <Signup /> */}
-                </View>
-              </GestureHandlerRootView>
-            </GluestackUIProvider>
-          </NavigationContainer>
+                    {/* <TabNavigator /> */}
+                    {/* <Login /> */}
+                    {/* <Signup /> */}
+                  </View>
+                </GestureHandlerRootView>
+              </GluestackUIProvider>
+            </NavigationContainer>
+          </NetworkProvider>
         </EmployeeListContext.Provider>
       </ProfileContext.Provider>
     </AuthContext.Provider>
